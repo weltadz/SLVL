@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Login from './pages/Login'
 import Home from './pages/Home'
+import Admin from "./pages/Admin"
 import ProtectedRoutes from './components/ProtectedRoutes'
 
 function App() {
@@ -10,8 +11,16 @@ function App() {
       <Route path="/" element={<Login/>}/>
       <Route path="/home" 
       element={
-        <ProtectedRoutes allowedRoles = {["Admin"]}>
+        <ProtectedRoutes allowedRoles = {["HR","Supervisor","Manager"]}>
           <Home/>
+        </ProtectedRoutes>
+      }
+      />
+
+      <Route path="/admin" 
+      element={
+        <ProtectedRoutes allowedRoles={["Admin"]}>
+          <Admin/>
         </ProtectedRoutes>
       }
       />

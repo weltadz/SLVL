@@ -32,6 +32,9 @@ function Login(){
 
             switch(role){
                 case 'Admin':
+                    navigate("/admin");
+                    break;
+                case 'HR':
                     navigate("/home");
                     break;
                 default:
