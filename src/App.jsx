@@ -1,10 +1,10 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Login from './pages/Login'
-import Home from './pages/Home'
-import Admin from "./pages/Admin"
-import HR from "./pages/HR"
-import Supervisor from "./pages/Supervisor"
-import Manager from "./pages/Manager"
+import Home from './pages/Employee/Home'
+import Admin from "./pages/Admin/Admin"
+import HR from "./pages/HR/HR"
+import Supervisor from "./pages/Supervisor/Supervisor"
+import Manager from "./pages/Manager/Manager"
 import ProtectedRoutes from './components/ProtectedRoutes'
 import EmployeeLayout from "./components/EmployeeLayout"
 import AdminLayout from "./components/AdminLayout"
