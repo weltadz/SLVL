@@ -34,8 +34,17 @@ function Login(){
                 case 'Admin':
                     navigate("/admin");
                     break;
-                case 'HR':
+                case 'Employee':
                     navigate("/home");
+                    break;
+                case 'HR':
+                    navigate("/hr");
+                    break;
+                case 'Supervisor':
+                    navigate("/supervisor");
+                    break; 
+                case 'Manager':
+                    navigate("/manager");
                     break;
                 default:
                     navigate('/');
@@ -83,7 +92,7 @@ function Login(){
                 </div>
 
                 <div className="login-btn-container">
-                    <button type="submit" className="login-btn bg-slate-700 text-white w-40 h-9 rounded-md hover:bg-gray-800 cursor-pointer">
+                    <button type="submit" className="login-btn bg-gray-800 text-white w-40 h-9 rounded-md hover:bg-gray-600 cursor-pointer">
                         Submit
                     </button>
                 </div>

@@ -2,28 +2,73 @@ import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Login from './pages/Login'
 import Home from './pages/Home'
 import Admin from "./pages/Admin"
+import HR from "./pages/HR"
+import Supervisor from "./pages/Supervisor"
+import Manager from "./pages/Manager"
 import ProtectedRoutes from './components/ProtectedRoutes'
+import EmployeeLayout from "./components/EmployeeLayout"
+import AdminLayout from "./components/AdminLayout"
+import HRLayout from "./components/HRLayout"
+import SupervisorLayout from "./components/SupervisorLayout"
+import ManagerLayout from "./components/ManagerLayout"
 
 function App() {
   return(
     <BrowserRouter>
     <Routes>
+
       <Route path="/" element={<Login/>}/>
+
       <Route path="/home" 
       element={
-        <ProtectedRoutes allowedRoles = {["HR","Supervisor","Manager"]}>
-          <Home/>
+        <ProtectedRoutes allowedRoles = {["Employee"]}>
+          <EmployeeLayout>
+            <Home/>
+          </EmployeeLayout>
         </ProtectedRoutes>
       }
       />
 
       <Route path="/admin" 
       element={
-        <ProtectedRoutes allowedRoles={["Admin"]}>
-          <Admin/>
+        <ProtectedRoutes allowedRoles = {["Admin"]}>
+          <AdminLayout>
+            <Admin/>
+          </AdminLayout>
         </ProtectedRoutes>
       }
       />
+
+      <Route path="/hr" 
+      element={
+        <ProtectedRoutes allowedRoles = {["HR"]}>
+          <HRLayout>
+            <HR/>
+          </HRLayout>
+        </ProtectedRoutes>
+      }
+      />
+
+      <Route path="/supervisor" 
+      element={
+        <ProtectedRoutes allowedRoles = {["Supervisor"]}>
+          <SupervisorLayout>
+            <Supervisor/>
+          </SupervisorLayout>
+        </ProtectedRoutes>
+      }
+      />
+
+      <Route path="/manager" 
+      element={
+        <ProtectedRoutes allowedRoles = {["Manager"]}>
+          <ManagerLayout>
+            <Manager/>
+          </ManagerLayout>
+        </ProtectedRoutes>
+      }
+      />
+
     </Routes>
     </BrowserRouter>
   )
