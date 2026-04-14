@@ -1,4 +1,6 @@
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import menuIcon from "../assets/icons8-menu-50.png";
 
 const menuByRole = {
     Employee:[
@@ -34,6 +36,7 @@ const menuByRole = {
 const Navbar = ({role}) =>{
     const menu = menuByRole[role] || [];
     const navigate = useNavigate();
+    const [isOpen, setOpen] = useState(false);
 
     const handleLogout = () =>{
     localStorage.removeItem('accessToken');
@@ -43,23 +46,52 @@ const Navbar = ({role}) =>{
 };
 
     return(
-        <nav className="hidden sm:text-sm sm:flex justify-between bg-gray-800 w-full h-14 text-white box-border ">
-            <div className="flex justify-center items-center text-2xl box-border p-5">
+        <nav className="bg-slate-900 w-full h-14 text-white box-border text-sm flex justify-between ">
+            <div className="flex justify-center items-center text-2xl box-border pl-5">
                 <h1>IKPC SLVL System</h1>
             </div>
-            <div className="flex justify-center items-center gap-5 box-border p-5 pr-5">
-                {menu.map((item)=>(
+
+            {/* Mobile view */}
+            <div>
+                <button className="sm:hidden relative cursor-pointer pr-5 w-12 h-14" onClick={() => setOpen(!isOpen)}>
+                    <img src={menuIcon} alt="menu-bar" className=""/>
+                </button>
+            </div>
+
+            {/* Dropdown */}
+            {isOpen && (
+                <div className="absolute right-0 bg-slate-900 flex flex-col justify-center items-center text-md 
+                rounded w-50 h-37 mt-13 sm:hidden box-border pb-1">
+                    {menu.map((item)=>(
                     item.name === "Logout"?(
-                        <button key={item.name} onClick={handleLogout} className="cursor-pointer hover:text-lime-400">
+                        <button key={item.name} onClick={handleLogout} className="cursor-pointer w-47 h-10 rounded hover:bg-white hover:text-black transition duration-100 ease-in-out">
                             Logout
                         </button>
                     ) : (
-                        <a key={item.name} href="" className="hover:text-lime-400">
+                        <a key={item.name} href="" className="flex items-center justify-center hover:bg-white hover:text-black w-47 h-10 rounded transition duration-100 ease-in-out">
+                            {item.name}
+                        </a>
+                    )
+                ))}
+                </div>
+            )}
+
+            {/* Desktop view */}
+            <div className="hidden sm:flex justify-center items-center  box-border p-5 pr-5">
+                {menu.map((item)=>(
+                    item.name === "Logout"?(
+                        <button key={item.name} onClick={handleLogout} className="cursor-pointer hover:bg-white hover:text-black w-23 h-10 rounded transition duration-100 ease-in-out ">
+                            Logout
+                        </button>
+                    ) : (
+                        <a key={item.name} href="" className="hover:bg-white hover:text-black w-23 h-10 flex items-center justify-center rounded transition duration-100 ease-in-out">
                             {item.name}
                         </a>
                     )
                 ))}
             </div>
+
+            
         </nav>
     )
 }
