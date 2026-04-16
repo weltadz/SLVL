@@ -19,7 +19,7 @@ function App() {
 
       <Route path="/" element={<Login/>}/>
 
-      <Route path="/home" 
+      <Route path="/employee/home" 
       element={
         <ProtectedRoutes allowedRoles = {["Employee"]}>
           <EmployeeLayout>
@@ -29,31 +29,31 @@ function App() {
       }
       />
 
-      <Route path="/admin" 
+      <Route path="/admin/home" 
       element={
         <ProtectedRoutes allowedRoles = {["Admin"]}>
           <AdminLayout>
-            <Admin/>
+            <Home/>
           </AdminLayout>
         </ProtectedRoutes>
       }
       />
 
-      <Route path="/hr" 
+      <Route path="/hr/home" 
       element={
         <ProtectedRoutes allowedRoles = {["HR"]}>
           <HRLayout>
-            <HR/>
+            <Home/>
           </HRLayout>
         </ProtectedRoutes>
       }
       />
 
-      <Route path="/supervisor" 
+      <Route path="/supervisor/home" 
       element={
         <ProtectedRoutes allowedRoles = {["Supervisor"]}>
           <SupervisorLayout>
-            <Supervisor/>
+            <Home/>
           </SupervisorLayout>
         </ProtectedRoutes>
       }

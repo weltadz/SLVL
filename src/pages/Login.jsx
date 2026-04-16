@@ -32,16 +32,16 @@ function Login(){
 
             switch(role){
                 case 'Admin':
-                    navigate("/admin");
+                    navigate("/admin/home");
                     break;
                 case 'Employee':
-                    navigate("/home");
+                    navigate("/employee/home");
                     break;
                 case 'HR':
-                    navigate("/hr");
+                    navigate("/hr/home");
                     break;
                 case 'Supervisor':
-                    navigate("/supervisor");
+                    navigate("/supervisor/home");
                     break; 
                 case 'Manager':
                     navigate("/manager");
