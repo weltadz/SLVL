@@ -92,7 +92,8 @@ function Login(){
                 </div>
 
                 <div className="login-btn-container">
-                    <button type="submit" className="login-btn bg-slate-800 text-white w-40 h-9 rounded-md hover:bg-slate-600 cursor-pointer">
+                    <button type="submit" className="login-btn bg-slate-800 text-white w-40 h-9 rounded-md 
+                    hover:bg-slate-600 cursor-pointer">
                         Submit
                     </button>
                 </div>

@@ -1,7 +1,8 @@
 const getUserRole = () => {
     const token = localStorage.getItem('accessToken');
+    
     if(!token){
-        return null;
+        return null
     }
 
     const payload = token.split('.')[1];

@@ -26,6 +26,7 @@ function Home(){
 
         const interval = setInterval(() =>{
             loadBalance();
+            loadRequest();
         },5000);
 
         return () => clearInterval(interval);
@@ -61,8 +62,8 @@ function Home(){
                                     <td>{item.reason}</td>
                                     <td>{item.documentTypeId == 1? "Sick Leave" : "Vacation Leave"}</td>
                                     <td>
-                                        {item.status == 1? "Sick Leave"
-                                        :item.status == 2? "Vacation Leave"
+                                        {item.status == 1? "Pending"
+                                        :item.status == 2? "Approved"
                                         : "Completed"}
                                     </td>
                                 </tr>
