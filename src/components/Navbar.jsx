@@ -61,7 +61,7 @@ const Navbar = ({role}) =>{
             {/* Dropdown */}
             {isOpen && (
                 <div className="absolute right-0 bg-slate-800 flex flex-col justify-center items-center text-md 
-                 w-50 h-37 mt-13 sm:hidden box-border pb-1 ">
+                 w-50 h-37 mt-13 sm:hidden box-border pb-1 z-10 ">
                     {menu.map((item)=>(
                     item.name === "Logout"?(
                         <button key={item.name} onClick={handleLogout} className="cursor-pointer w-47 h-10 rounded 
