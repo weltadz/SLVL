@@ -3,9 +3,11 @@ import getLeaveBalance from "../../api/getLeaveBalance"
 import getLatestRequest from "../../api/getLatestRequest";
 import add from "../../assets/plus.png";
 import back from "../../assets/back.png";
+import backWhite from "../../assets/backWhite.png";
 
 function Home(){
     const [isOpen, setOpen] = useState(false);
+    const [isHovered, setHovered] = useState(false);
 
     const [leaveBalance, setLeave] = useState({
         sickLeave: 0,
@@ -99,29 +101,36 @@ function Home(){
                 rounded bg-black/70 z-20">
                     <form action="" className=" relative bg-white w-[400px] h-[500px] shadow-md
                     rounded border-box pt-10 p-2 flex flex-col items-center">
-                        <button className=" absolute left-2 top-2 bg-gray-300 hover:bg-gray-400 w-[70px] h-[40px] 
-                        rounded-md border-box pl-2 cursor-pointer" onClick={()=>setOpen(false)}>
-                            <img src={back} alt="" className="w-[20px]" />
+                        <button 
+                        className=" absolute left-2 top-2 bg-gray-300 hover:bg-gray-400 w-[70px] h-[40px] 
+                        rounded-md border-box pl-2 cursor-pointer hover:shadow-lg" 
+                        onClick={()=>setOpen(false)}
+                        onMouseEnter={()=>setHovered(true)}
+                        onMouseLeave={()=>setHovered(false)}>
+                            <img 
+                            src={isHovered ? backWhite : back}
+                            alt="return button" 
+                            className="w-[20px]" />
                         </button>
 
                         <p className="text-2xl mb-4">Request Form</p>
 
                         <div className="startDateContainer w-full h-[1px] flex justify-between
                         items-center border-box p-10">
-                            <label className="text-end w-[80px] border-box pt-5">Start Date:</label>
+                            <label className="text-end w-[80px] border-box">Start Date:</label>
                             <input className="w-[200px] h-[40px] border-b-1 cursor-pointer outline-none" 
                             type="date" />
                         </div>
 
                         <div className="endDateContainer w-full h-[1px] flex justify-between items-center border-box p-10">
-                            <label className="text-end w-[80px] border-box pt-5">End Date:</label>
+                            <label className="text-end w-[80px] border-box">End Date:</label>
                             <input className="w-[200px] h-[40px] border-b-1 cursor-pointer outline-none" 
                             type="date" />
                         </div>
 
                         <div className="reasonContainer w-full h-[1px] flex justify-between items-center border-box p-10">
                             <label className="text-end w-[80px] border-box">Reason:</label>
-                            <textarea className="w-[200px] h-[40px] border-1 cursor-pointer resize-none 
+                            <textarea className="w-[200px] h-[60px] border-1 cursor-pointer resize-none 
                             overflow-y-auto outline-none border-box p-2 rounded" 
                             type="text" />
                         </div>
