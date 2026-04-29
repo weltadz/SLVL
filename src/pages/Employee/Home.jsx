@@ -101,13 +101,10 @@ function Home(){
     }
 
     return(
-        <main className="flex flex-col items-center justify-start w-full h-full m-0 p-0 box-border pt-10 bg-gray-200">
-            <div className=" flex item-start font-medium text-2xl w-[100%] box-border mb-30 pl-2 pb-1 
-            ">
-                <h1>Leave Request Status</h1>
-            </div>
+        <main className="flex flex-col items-center justify-start w-full h-full m-0 p-0 pt-50 box-border pt-10 bg-gray-200">
             <div className="latestRequestTableContainer relative flex items-start justify-start
             bg-white shadow-md rounded w-[90%] h-[300px] sm:w-[80%] box-border">
+                <h1 className="absolute bottom-77 text-2xl font-medium md:text-3xl">Leave Request Status</h1>
                 <div className="absolute right-5 bottom-77 box-border 
                 h-[35px] w-[110px]">
                     <button className=" flex items-center justify-center gap-3 cursor-pointer bg-green-500 hover:bg-green-700 
@@ -151,6 +148,24 @@ function Home(){
                         )}
                     </tbody>
                 </table>
+                <div className="balanceContainer absolute flex flex-col items-end gap-5 top-80 w-[300px] h-[130px] bg-gray-300 
+                rounded p-2">
+                    <div className="w-full box-border">
+                        <p className="text-sm">Remaining balance</p>
+                    </div>
+                    <div className="slvlContainer w-full flex items-end justify-center flex-1 gap-2">
+                        <div className="sickLeave flex flex-col items-center w-[140px] h-[70px] bg-slate-600 rounded p-1
+                        text-white">
+                            <p className="text-4xl">{leaveBalance.sickLeave}</p>
+                            <p className="text-xs">Sick leave</p>
+                        </div>
+                        <div className="vacationLeave flex flex-col items-center w-[140px] h-[70px] bg-slate-600 rounded p-1
+                        text-white">
+                            <p className="text-4xl">{leaveBalance.vacationLeave}</p>
+                            <p className="text-xs">Vacation leave</p>
+                        </div>
+                    </div>
+                </div>
             </div>
             {isOpen && (
                 <div className=" flex items-center justify-center fixed bottom-1 w-full h-screen

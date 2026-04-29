@@ -2,9 +2,9 @@ import Navbar from "./Navbar";
 
 const HRLayout = ({children}) =>{
     return(
-        <div>
-            <Navbar role="HR"/>
-            <main>{children}</main>
+        <div className="flex flex-col h-screen m-0 p-0">
+            <Navbar role="Hr"/>
+            <main className="flex-1">{children}</main>
         </div>
     )
 }
