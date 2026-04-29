@@ -16,6 +16,7 @@ function App() {
 
       <Route path="/" element={<Login/>}/>
 
+      {/* employee route */}
       <Route path="/employee/home" 
       element={
         <ProtectedRoutes allowedRoles = {["Employee"]}>
@@ -36,6 +37,7 @@ function App() {
       }
       />
 
+      {/* admin route */}
       <Route path="/admin/home" 
       element={
         <ProtectedRoutes allowedRoles = {["Admin"]}>
@@ -46,6 +48,7 @@ function App() {
       }
       />
 
+      {/* hr route */}
       <Route path="/hr/home" 
       element={
         <ProtectedRoutes allowedRoles = {["HR"]}>
@@ -56,6 +59,17 @@ function App() {
       }
       />
 
+      <Route path="/hr/request" 
+      element={
+        <ProtectedRoutes allowedRoles = {["HR"]}>
+          <HRLayout>
+            <Request/>
+          </HRLayout>
+        </ProtectedRoutes>
+      }
+      />
+
+      {/* supervisor route */}
       <Route path="/supervisor/home" 
       element={
         <ProtectedRoutes allowedRoles = {["Supervisor"]}>
@@ -66,11 +80,32 @@ function App() {
       }
       />
 
-      <Route path="/manager" 
+      <Route path="/supervisor/request" 
+      element={
+        <ProtectedRoutes allowedRoles = {["Supervisor"]}>
+          <SupervisorLayout>
+            <Request/>
+          </SupervisorLayout>
+        </ProtectedRoutes>
+      }
+      />
+
+      {/* manager route */}
+      <Route path="/manager/home" 
       element={
         <ProtectedRoutes allowedRoles = {["Manager"]}>
           <ManagerLayout>
             <Home/>
+          </ManagerLayout>
+        </ProtectedRoutes>
+      }
+      />
+
+      <Route path="/manager/request" 
+      element={
+        <ProtectedRoutes allowedRoles = {["Manager"]}>
+          <ManagerLayout>
+            <Request/>
           </ManagerLayout>
         </ProtectedRoutes>
       }

@@ -2,9 +2,9 @@ import Navbar from "./Navbar";
 
 const ManagerLayout = ({children}) =>{
     return(
-        <div>
+        <div className="flex flex-col h-screen m-0 p-0">
             <Navbar role="Manager"/>
-            <main>{children}</main>
+            <main className="flex-1">{children}</main>
         </div>
     )
 }

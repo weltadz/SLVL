@@ -44,7 +44,7 @@ function Login(){
                     navigate("/supervisor/home");
                     break; 
                 case 'Manager':
-                    navigate("/manager");
+                    navigate("/manager/home");
                     break;
                 default:
                     navigate('/');

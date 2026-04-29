@@ -6,7 +6,6 @@ const menuByRole = {
     Employee:[
         {name: "Dashboard", link: "/employee/home"},
         {name: "Requests", link: "/employee/request"},
-        {name: "Profile"},
         {name: "Logout"}
     ],
     Admin:[
@@ -18,17 +17,17 @@ const menuByRole = {
     HR:[
         {name: "Dashboard", link: "/hr/home"},
         {name: "Employees"},
-        {name: "Requests"},
+        {name: "Requests", link: "/hr/request"},
         {name: "Logout"}
     ],
     Supervisor:[
-        {name: "Dashboard"},
-        {name: "Requests"},
+        {name: "Dashboard", link: "/supervisor/home"},
+        {name: "Requests", link: "/supervisor/request"},
         {name: "Logout"}
     ],
     Manager:[
-        {name: "Dashboard"},
-        {name: "Requests"},
+        {name: "Dashboard", link: "/manager/home"},
+        {name: "Requests", link: "/manager/request"},
         {name: "Logout"}
     ]
 };
