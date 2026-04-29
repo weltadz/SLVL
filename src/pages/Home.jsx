@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react"
-import getLeaveBalance from "../../api/getLeaveBalance"
-import getLatestRequest from "../../api/getLatestRequest";
-import add from "../../assets/plus.png";
-import back from "../../assets/back.png";
-import backWhite from "../../assets/backWhite.png";
-import createLeaveRequest from "../../api/createRequest";
+import getLeaveBalance from "../api/getLeaveBalance"
+import { getLatestRequest } from "../api/getLatestRequest";
+import add from "../assets/plus.png";
+import back from "../assets/back.png";
+import backWhite from "../assets/backWhite.png";
+import createLeaveRequest from "../api/createRequest";
 
 function Home(){
     // toggle request form
@@ -48,7 +48,7 @@ function Home(){
             interval = setInterval(() =>{
                 loadBalance();
                 loadRequest();
-            },5000);
+            },10000);
         }
         
         runRefresh();
@@ -104,7 +104,7 @@ function Home(){
         <main className="flex flex-col items-center justify-start w-full h-full m-0 p-0 pt-50 box-border pt-10 bg-gray-200">
             <div className="latestRequestTableContainer relative flex items-start justify-start
             bg-white shadow-md rounded w-[90%] h-[300px] sm:w-[80%] box-border">
-                <h1 className="absolute bottom-77 text-2xl font-medium md:text-3xl">Leave Request Status</h1>
+                <h1 className="absolute bottom-77 text-2xl font-medium md:text-3xl">Leave Request Overview</h1>
                 <div className="absolute right-5 bottom-77 box-border 
                 h-[35px] w-[110px]">
                     <button className=" flex items-center justify-center gap-3 cursor-pointer bg-green-500 hover:bg-green-700 
@@ -115,7 +115,7 @@ function Home(){
                 </div>
                 <table className="w-full border-collapse">
                     <thead>
-                        <tr className="text-[10px] uppercase bg-slate-600 text-white h-9 md:text-sm">
+                        <tr className="text-[10px] uppercase bg-slate-600 text-white h-[2rem] md:h-[3rem] md:text-sm">
                             <th className="rounded-tl">Start Date</th>
                             <th>End Date</th>
                             <th>Reason</th>
@@ -127,13 +127,13 @@ function Home(){
                         {latestRequest.length == 0 ? (
                             <tr>
                                 <td colSpan={5} className="text-gray-500 text-center">
-                                    No approved appointment yet
+                                    No leave request yet
                                 </td>
                             </tr>
                         ) : (
                             latestRequest.map((item,index) =>(
-                                <tr key={index} className="text-[10px] text-center md:text-[15px] border-b-1 border-gray-300 
-                                h-[2rem]">
+                                <tr key={index} className="text-[10px] h-[2rem] text-center md:text-[15px] md:h-[3rem] 
+                                border-b-1 border-gray-300">
                                     <td>{item.startDate}</td>
                                     <td>{item.endDate}</td>
                                     <td>{item.reason}</td>
@@ -148,18 +148,18 @@ function Home(){
                         )}
                     </tbody>
                 </table>
-                <div className="balanceContainer absolute flex flex-col items-end gap-5 top-80 w-[300px] h-[130px] bg-gray-300 
-                rounded p-2">
-                    <div className="w-full box-border">
-                        <p className="text-sm">Remaining balance</p>
+                <div className="balanceContainer absolute flex flex-col items-end gap-5 top-80 w-[260px] h-[120px] bg-slate-600 
+                rounded p-2 text-white">
+                    <div className="w-full h-[8px] box-border">
+                        <p className="text-xs">Remaining balance</p>
                     </div>
-                    <div className="slvlContainer w-full flex items-end justify-center flex-1 gap-2">
-                        <div className="sickLeave flex flex-col items-center w-[140px] h-[70px] bg-slate-600 rounded p-1
-                        text-white">
+                    <div className="slvlContainer w-full flex items-start justify-center flex-1">
+                        <div className="sickLeave flex flex-col items-center w-[140px] h-[70px] bg-slate-600 p-1
+                        text-white border-r-1 border-bg-white">
                             <p className="text-4xl">{leaveBalance.sickLeave}</p>
                             <p className="text-xs">Sick leave</p>
                         </div>
-                        <div className="vacationLeave flex flex-col items-center w-[140px] h-[70px] bg-slate-600 rounded p-1
+                        <div className="vacationLeave flex flex-col items-center w-[140px] h-[70px] bg-slate-600 p-1
                         text-white">
                             <p className="text-4xl">{leaveBalance.vacationLeave}</p>
                             <p className="text-xs">Vacation leave</p>

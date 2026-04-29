@@ -5,7 +5,7 @@ import menuIcon from "../assets/icons8-menu-50.png";
 const menuByRole = {
     Employee:[
         {name: "Dashboard", link: "/employee/home"},
-        {name: "Requests"},
+        {name: "Requests", link: "/employee/request"},
         {name: "Profile"},
         {name: "Logout"}
     ],
@@ -16,7 +16,7 @@ const menuByRole = {
         {name: "Logout"}
     ],
     HR:[
-        {name: "Dashboard"},
+        {name: "Dashboard", link: "/hr/home"},
         {name: "Employees"},
         {name: "Requests"},
         {name: "Logout"}

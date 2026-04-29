@@ -1,10 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Login from './pages/Login'
-import Home from './pages/Employee/Home'
-import Admin from "./pages/Admin/Admin"
-import HR from "./pages/HR/HR"
-import Supervisor from "./pages/Supervisor/Supervisor"
-import Manager from "./pages/Manager/Manager"
+import Home from './pages/Home'
+import Request from  "./pages/Request"
 import ProtectedRoutes from './components/ProtectedRoutes'
 import EmployeeLayout from "./components/EmployeeLayout"
 import AdminLayout from "./components/AdminLayout"
@@ -24,6 +21,16 @@ function App() {
         <ProtectedRoutes allowedRoles = {["Employee"]}>
           <EmployeeLayout>
             <Home/>
+          </EmployeeLayout>
+        </ProtectedRoutes>
+      }
+      />
+
+      <Route path="/employee/request" 
+      element={
+        <ProtectedRoutes allowedRoles = {["Employee"]}>
+          <EmployeeLayout>
+            <Request/>
           </EmployeeLayout>
         </ProtectedRoutes>
       }
@@ -63,7 +70,7 @@ function App() {
       element={
         <ProtectedRoutes allowedRoles = {["Manager"]}>
           <ManagerLayout>
-            <Manager/>
+            <Home/>
           </ManagerLayout>
         </ProtectedRoutes>
       }
