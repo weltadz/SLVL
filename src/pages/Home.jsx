@@ -38,8 +38,7 @@ function Home(){
         setRequest(data);
     }
 
-    useEffect(() =>{
-        let interval;
+    let interval;
 
         const runRefresh = async () =>{
             await loadBalance();
@@ -50,7 +49,8 @@ function Home(){
                 loadRequest();
             },10000);
         }
-        
+
+    useEffect(() =>{
         runRefresh();
 
         return () => clearInterval(interval);
@@ -81,12 +81,12 @@ function Home(){
 
         try{
             const message = await createLeaveRequest(startDate, endDate, reason, documentTypeId);
-            console.log("submit clicked")
             setSuccess(message);
             setError("");
             setStartDate("");
             setEndDate("");
             setReason("");
+        
         }catch(error){
             setError(error.message);
             setSuccess("");
@@ -125,8 +125,9 @@ function Home(){
                     </thead>
                     <tbody>
                         {latestRequest.length == 0 ? (
-                            <tr>
-                                <td colSpan={5} className="text-gray-500 text-center">
+                            <tr className=" text-[15px] text-gray-500 h-[2rem] md:h-[3rem] md:text-[20px] 
+                                text-center">
+                                <td colSpan={5}>
                                     No leave request yet
                                 </td>
                             </tr>
@@ -148,19 +149,19 @@ function Home(){
                         )}
                     </tbody>
                 </table>
-                <div className="balanceContainer absolute flex flex-col items-end gap-5 top-80 w-[260px] h-[120px] bg-slate-600 
-                rounded p-2 text-white">
+                <div className="balanceContainer absolute flex flex-col items-end gap-5 top-80 w-[260px] h-[120px] bg-white 
+                rounded p-2 shadow-md">
                     <div className="w-full h-[8px] box-border">
                         <p className="text-xs">Remaining balance</p>
                     </div>
                     <div className="slvlContainer w-full flex items-start justify-center flex-1">
-                        <div className="sickLeave flex flex-col items-center w-[140px] h-[70px] bg-slate-600 p-1
-                        text-white border-r-1 border-bg-white">
+                        <div className="sickLeave flex flex-col items-center w-[140px] h-[70px] p-1
+                        border-r-1 border-bg-white">
                             <p className="text-4xl">{leaveBalance.sickLeave}</p>
                             <p className="text-xs">Sick leave</p>
                         </div>
-                        <div className="vacationLeave flex flex-col items-center w-[140px] h-[70px] bg-slate-600 p-1
-                        text-white">
+                        <div className="vacationLeave flex flex-col items-center w-[140px] h-[70px] p-1
+                        ">
                             <p className="text-4xl">{leaveBalance.vacationLeave}</p>
                             <p className="text-xs">Vacation leave</p>
                         </div>

@@ -4,6 +4,18 @@ import { getAllRequest } from "../api/getLatestRequest"
 function Request (){
 
     const [latestRequest, setRequest] = useState([]);
+    const [filter, setFilter] = useState("All");
+
+    const status = {
+        Pending: 1,
+        Approved: 2,
+        Completed: 3
+    };
+
+    const filteredRequest = latestRequest.filter((r)=>
+        filter == "All" ? true : r.statusId ==status[filter]
+    );
+
     const loadRequest = async () => {
         const data = await getAllRequest();
         setRequest(data);
@@ -28,8 +40,20 @@ function Request (){
     return(
         <main className="flex flex-col items-center justify-start w-full h-full m-0 p-0 pt-50 box-border pt-10 bg-gray-200">
             <div className="latestRequestTableContainer relative flex items-start justify-start
-            bg-white shadow-md rounded w-[90%] h-[300px] sm:w-[80%] box-border">
-                <h1 className="absolute bottom-77 text-2xl font-medium md:text-3xl">Leave Request</h1>
+            bg-white shadow-md rounded w-[90%] h-[500px] sm:w-[80%] box-border">
+                <h1 className="absolute bottom-127 text-2xl font-medium md:text-3xl">Leave Request</h1>
+                <div className="absolute right-1 bottom-126 box-border h-[40px] w-[120px]">
+                    <select
+                    value={filter}
+                    onChange={(e)=>setFilter(e.target.value)}
+                    className="w-full h-[40px] border-1 border-gray-400 rounded cursor-pointer outline-none bg-white
+                    text-center">
+                        <option value="All">All</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Approved">Approved</option>
+                        <option value="Completed">Completed</option>
+                    </select>
+                </div>
                 <table className="w-full border-collapse">
                     <thead>
                         <tr className="text-[10px] uppercase bg-slate-600 text-white h-[2rem] md:h-[3rem] md:text-sm">
@@ -41,12 +65,15 @@ function Request (){
                         </tr>
                     </thead>
                     <tbody>
-                        {latestRequest.length == 0 ? (
-                            <tr>
-                                <td colSpan={5} className="text-gray-500 text-center">No leave request yet</td>
+                        {filteredRequest.length == 0 ? (
+                            <tr className=" text-[15px] text-gray-500 h-[2rem] md:h-[3rem] md:text-[20px] 
+                                text-center">
+                                <td colSpan={5}>
+                                    No leave request yet
+                                </td>
                             </tr>
                         ) : (
-                            latestRequest.map((item,index)=>(
+                            filteredRequest.map((item,index)=>(
                                 <tr key={index} className="text-[10px] h-[2rem] text-center md:text-[15px] md:h-[3rem] 
                                 border-b-1 border-gray-300">
                                     <td>{item.startDate}</td>
