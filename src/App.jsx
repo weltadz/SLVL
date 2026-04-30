@@ -8,6 +8,7 @@ import AdminLayout from "./components/AdminLayout"
 import HRLayout from "./components/HRLayout"
 import SupervisorLayout from "./components/SupervisorLayout"
 import ManagerLayout from "./components/ManagerLayout"
+import Approvals from "./pages/HR/Approvals"
 
 function App() {
   return(
@@ -64,6 +65,16 @@ function App() {
         <ProtectedRoutes allowedRoles = {["HR"]}>
           <HRLayout>
             <Request/>
+          </HRLayout>
+        </ProtectedRoutes>
+      }
+      />
+
+      <Route path="/hr/approvals" 
+      element={
+        <ProtectedRoutes allowedRoles = {["HR"]}>
+          <HRLayout>
+            <Approvals/>
           </HRLayout>
         </ProtectedRoutes>
       }

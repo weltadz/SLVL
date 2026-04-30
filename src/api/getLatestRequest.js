@@ -21,3 +21,14 @@ export const getAllRequest = async () => {
 
     return result;
 };
+
+export const getAllRequestApproval = async () =>{
+    const response = await fetchWithToken("https://localhost:7080/api/LeaveRequest/HR");
+    const result = await response.json();
+
+    if(!response.ok){
+        throw new Error(result.message);
+    }
+
+    return result;
+}
