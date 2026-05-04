@@ -1,13 +1,13 @@
-import { getAllRequestApproval } from "../../api/getLatestRequest"
+import { getAllRequestApprovalHr } from "../../api/getLatestRequest"
 import { patchLeaveRequest } from "../../api/patchLeaveRequest";
 import { useState, useEffect } from "react"
 
-function Approvals (){
+function ApprovalHr (){
 
     const [approvalRequest, setApproval] = useState([]);
 
     const loadRequest = async () => {
-        const data = await getAllRequestApproval();
+        const data = await getAllRequestApprovalHr();
         setApproval(data);
     }
 
@@ -88,4 +88,4 @@ function Approvals (){
     )
 }
 
-export default Approvals
+export default ApprovalHr

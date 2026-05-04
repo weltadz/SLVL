@@ -8,7 +8,9 @@ import AdminLayout from "./components/AdminLayout"
 import HRLayout from "./components/HRLayout"
 import SupervisorLayout from "./components/SupervisorLayout"
 import ManagerLayout from "./components/ManagerLayout"
-import Approvals from "./pages/HR/Approvals"
+import ApprovalHr from "./pages/HR/ApprovalHr"
+import ApprovalSupervisor from "./pages/Supervisor/ApprovalSupervisor"
+import ApprovalManager from "./pages/Manager/ApprovalManager"
 
 function App() {
   return(
@@ -74,7 +76,7 @@ function App() {
       element={
         <ProtectedRoutes allowedRoles = {["HR"]}>
           <HRLayout>
-            <Approvals/>
+            <ApprovalHr/>
           </HRLayout>
         </ProtectedRoutes>
       }
@@ -101,6 +103,17 @@ function App() {
       }
       />
 
+      <Route path="/supervisor/approvals" 
+      element={
+        <ProtectedRoutes allowedRoles = {["Supervisor"]}>
+          <SupervisorLayout>
+            <ApprovalSupervisor/>
+          </SupervisorLayout>
+        </ProtectedRoutes>
+      }
+      />
+
+     
       {/* manager route */}
       <Route path="/manager/home" 
       element={
@@ -117,6 +130,16 @@ function App() {
         <ProtectedRoutes allowedRoles = {["Manager"]}>
           <ManagerLayout>
             <Request/>
+          </ManagerLayout>
+        </ProtectedRoutes>
+      }
+      />
+
+      <Route path="/manager/approvals" 
+      element={
+        <ProtectedRoutes allowedRoles = {["Manager"]}>
+          <ManagerLayout>
+            <ApprovalManager/>
           </ManagerLayout>
         </ProtectedRoutes>
       }

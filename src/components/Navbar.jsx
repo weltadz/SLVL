@@ -22,11 +22,13 @@ const menuByRole = {
     ],
     Supervisor:[
         {name: "Dashboard", link: "/supervisor/home"},
+        {name: "Approvals", link: "/supervisor/approvals"},
         {name: "Requests", link: "/supervisor/request"},
         {name: "Logout"}
     ],
     Manager:[
         {name: "Dashboard", link: "/manager/home"},
+        {name: "Approvals", link: "/manager/approvals"},
         {name: "Requests", link: "/manager/request"},
         {name: "Logout"}
     ]

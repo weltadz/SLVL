@@ -22,8 +22,30 @@ export const getAllRequest = async () => {
     return result;
 };
 
-export const getAllRequestApproval = async () =>{
-    const response = await fetchWithToken("https://localhost:7080/api/LeaveRequest/HR");
+export const getAllRequestApprovalHr = async () =>{
+    const response = await fetchWithToken("https://localhost:7080/api/LeaveRequest/Hr");
+    const result = await response.json();
+
+    if(!response.ok){
+        throw new Error(result.message);
+    }
+
+    return result;
+}
+
+export const getAllRequestApprovalSupervisor = async ()=>{
+    const response = await fetchWithToken("https://localhost:7080/api/LeaveRequest/Supervisor");
+    const result = await response.json();
+
+    if(!response.ok){
+        throw new Error(result.message);
+    }
+
+    return result;
+}
+
+export const getAllRequestApprovalManager = async ()=>{
+    const response = await fetchWithToken("https://localhost:7080/api/LeaveRequest/Manager");
     const result = await response.json();
 
     if(!response.ok){
