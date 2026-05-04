@@ -47,7 +47,7 @@ function Home(){
             interval = setInterval(() =>{
                 loadBalance();
                 loadRequest();
-            },10000);
+            },3000);
         }
 
     useEffect(() =>{

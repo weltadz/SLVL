@@ -54,3 +54,16 @@ export const getAllRequestApprovalManager = async ()=>{
 
     return result;
 }
+
+export const getAllRequestApprovalAdmin = async ()=>{
+    const response = await fetchWithToken("https://localhost:7080/api/LeaveRequest/Admin");
+    const result = await response.json();
+
+    if(!response.ok){
+        throw new Error(result.message);
+    }
+
+    return result;
+}
+
+

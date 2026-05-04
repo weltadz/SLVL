@@ -1,13 +1,13 @@
-import { getAllRequestApprovalSupervisor } from "../../api/getLatestRequest"
+import { getAllRequestApprovalAdmin } from "../../api/getLatestRequest"
 import { patchLeaveRequest } from "../../api/patchLeaveRequest";
 import { useState, useEffect } from "react"
 
-function ApprovalSupervisor (){
+function ApprovalAdmin (){
 
     const [approvalRequest, setApproval] = useState([]);
 
     const loadRequest = async () => {
-        const data = await getAllRequestApprovalSupervisor();
+        const data = await getAllRequestApprovalAdmin();
         setApproval(data);
     }
 
@@ -24,7 +24,7 @@ function ApprovalSupervisor (){
 
             interval = setInterval(()=>{
                 loadRequest();
-            },3000)
+            },10000)
         }
 
         runRefresh();
@@ -88,4 +88,4 @@ function ApprovalSupervisor (){
     )
 }
 
-export default ApprovalSupervisor
+export default ApprovalAdmin

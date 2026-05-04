@@ -10,7 +10,8 @@ const menuByRole = {
     ],
     Admin:[
         {name: "Dashboard", link: "/admin/home"},
-        {name: "Employees"},
+        {name: "Users"},
+        {name: "Approvals", link: "/admin/approvals"},
         {name: "Departments"},
         {name: "Logout"}
     ],
