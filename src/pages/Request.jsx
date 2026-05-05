@@ -57,11 +57,11 @@ function Request (){
                 <table className="w-full border-collapse">
                     <thead>
                         <tr className="text-[10px] uppercase bg-slate-600 text-white h-[2rem] md:h-[3rem] md:text-sm">
-                            <th className="rounded-tl">Start Date</th>
-                            <th>End Date</th>
-                            <th>Reason</th>
-                            <th>Document Type</th>
-                            <th className="rounded-tr">Status</th>
+                            <th className="rounded-tl w-[200px]">Start Date</th>
+                            <th className="w-[200px]">End Date</th>
+                            <th className="w-[200px]">Reason</th>
+                            <th className="w-[200px]">Document Type</th>
+                            <th className="rounded-tr w-[200px]">Status</th>
                         </tr>
                     </thead>
                     <tbody>
