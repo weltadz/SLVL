@@ -1,10 +1,19 @@
 import { useState, useEffect } from "react"
-import { getAllUser } from "../../api/user";
-import getUserId from "../../utils/GetUserId";
+import { getAllUser } from "../../api/user"
+import getUserId from "../../utils/GetUserId"
 import add from "../../assets/plus.png"
+import back from "../../assets/back.png"
+import { patchUser } from "../../api/user"
 
 function Users (){
     const [users, setUser] = useState([]);
+    const [isOpen, setOpen] = useState(false);
+    const [enrollNumber, setEnrollNumber] = useState("");
+    const [roleId, setRole] = useState("");
+    const [departmentId, setDepartment] = useState("");
+    const [success, setSuccess] = useState("");
+    const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const loadUser = async ()=>{
         const data = await getAllUser()
@@ -26,6 +35,23 @@ function Users (){
 
         return ()=> clearInterval(interval);
     },[])
+
+    const handleReturn = ()=>{
+        setOpen(false);
+    }
+
+    const handleSubmit = async (e)=>{
+        e.preventDefault()
+
+        try{
+            const message = await patchUser(enrollNumber, roleId, departmentId)
+            setSuccess(message);
+            setError("");
+        }catch(error){
+            setError(error.message);
+            setSuccess("")
+        }
+    }
 
     return(
         <main className="flex flex-col items-center justify-start w-full h-full m-0 p-0 pt-40 box-border pt-10 bg-gray-200">
@@ -75,8 +101,15 @@ function Users (){
                                         : "Production"}
                                     </td>
                                     <td>
-                                        <button className="bg-yellow-500 hover:bg-yellow-700 text-white h-[30px] w-[75px] 
-                                        rounded cursor-pointer">
+                                        <button 
+                                        className="bg-yellow-500 hover:bg-yellow-700 text-white h-[30px] w-[75px] 
+                                        rounded cursor-pointer transition duration-100 ease-in-out"
+                                        onClick={()=>{
+                                            setOpen(true);
+                                            setEnrollNumber(user.enrollNumber);
+                                            setDepartment(user.departmentId.toString())
+                                            setRole(user.roleId.toString())
+                                        }}>
                                             Edit
                                         </button>
                                     </td>
@@ -86,6 +119,77 @@ function Users (){
                     </tbody>
                 </table>
             </div>
+            {isOpen && (
+                <div className=" flex items-center justify-center fixed bottom-1 w-full h-screen
+                rounded bg-black/70 z-20">
+                    <form 
+                    className=" relative bg-white w-[400px] h-[510px] shadow-md
+                    rounded border-box pt-12 p-2 flex flex-col items-center"
+                    onSubmit={handleSubmit}>
+                        <button 
+                        className=" absolute left-2 top-2 bg-gray-300 hover:bg-gray-400 w-[40px] h-[40px] 
+                        rounded-md border-box pl-2 cursor-pointer hover:shadow-lg transition ease-in-out duration-100"
+                        onClick={handleReturn}>
+                            <img 
+                            src={back} 
+                            alt="return button"
+                            className="w-[20px]" />
+                        </button>
+
+                        <p className="text-2xl mb-12">Edit Users</p>
+
+                        <div 
+                            className="enrollNumberContainer w-full h-[1px] flex justify-between
+                            items-center border-box p-10">
+                                <label className="text-end w-[80px] border-box">EnrollNumber:</label>
+                                <input 
+                                type="text" 
+                                value={enrollNumber}
+                                readOnly
+                                className="outline-none"/>
+                        </div>
+
+                        <div 
+                            className="roleContainer w-full h-[1px] flex justify-between
+                            items-center border-box p-10">
+                                <label className="text-end w-[80px] border-box">Role:</label>
+                                <select
+                                value={roleId}
+                                onChange={(e)=>setRole(e.target.value)}
+                                className="w-[200px] h-[40px] border-1 cursor-pointer outline-none border-box p-2 rounded">
+                                    <option value="2">Manager</option>
+                                    <option value="3">Supervisor</option>
+                                    <option value="4">HR</option>
+                                    <option value="5">Employee</option>
+                                </select>
+                        </div>
+
+                        <div 
+                            className="departmentContainer w-full h-[1px] flex justify-between
+                            items-center border-box p-10">
+                                <label className="text-end w-[80px] border-box">Department:</label>
+                                <select
+                                className="w-[200px] h-[40px] border-1 cursor-pointer outline-none border-box p-2 rounded"
+                                value={departmentId}
+                                onChange={(e)=>setDepartment(e.target.value)}>
+                                    <option value="1">IT</option>
+                                    <option value="2">SPPL</option>
+                                    <option value="3">HRAD</option>
+                                    <option value="4">Production</option>
+                                </select>
+                        </div>
+
+                        <div className="leaveTypeContainer w-full h-[1px] flex justify-end items-center border-box pt-13 pr-2">
+                            <button 
+                            type="submit" 
+                            className="bg-green-500 hover:bg-green-700 w-[150px] h-[40px] 
+                            text-white rounded-lg cursor-pointer transition ease-in-out duration-100">
+                                Save
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            )}
         </main>
     )
 }

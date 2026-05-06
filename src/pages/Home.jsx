@@ -183,7 +183,7 @@ function Home(){
                         onMouseEnter={()=>setHovered(true)}
                         onMouseLeave={()=>setHovered(false)}>
                             <img 
-                            src={isHovered ? backWhite : back}
+                            src={back}
                             alt="return button" 
                             className="w-[20px]" />
                         </button>
