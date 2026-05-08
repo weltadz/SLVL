@@ -33,7 +33,7 @@ function ApprovalAdmin (){
     },[])
 
     return(
-        <main className="flex flex-col items-center justify-start w-full h-full m-0 p-0 pt-50 box-border pt-10 bg-gray-200">
+        <main className="flex flex-col items-center justify-start w-full h-full m-0 p-0 pt-50 box-border pt-10 bg-taupe-200">
             <div className="RequestTableContainer relative flex items-start justify-start
             bg-white shadow-md rounded w-[90%] h-[500px] sm:w-[80%] box-border">
                 <h1 className="absolute bottom-127 text-2xl font-medium md:text-3xl">Approvals</h1>

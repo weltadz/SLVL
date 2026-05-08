@@ -4,6 +4,7 @@ import getUserId from "../../utils/GetUserId"
 import add from "../../assets/plus.png"
 import back from "../../assets/back.png"
 import { patchUser } from "../../api/user"
+import check from "../../assets/success.png"
 
 function Users (){
     const [users, setUser] = useState([]);
@@ -14,6 +15,7 @@ function Users (){
     const [success, setSuccess] = useState("");
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
+    const [save, setSave] = useState(false);
 
     const loadUser = async ()=>{
         const data = await getAllUser()
@@ -36,6 +38,14 @@ function Users (){
         return ()=> clearInterval(interval);
     },[])
 
+    const successMessage = ()=>{
+        setSave(true);
+
+        setTimeout(()=>{
+            setSave(false);
+        },2000)
+    }
+
     const handleReturn = ()=>{
         setOpen(false);
     }
@@ -43,20 +53,26 @@ function Users (){
     const handleSubmit = async (e)=>{
         e.preventDefault()
 
+        setLoading(true);
+
         try{
             const message = await patchUser(enrollNumber, roleId, departmentId)
             setSuccess(message);
             setError("");
+            loadUser()
+            successMessage();
         }catch(error){
             setError(error.message);
             setSuccess("")
+        }finally{
+            setLoading(false);
         }
     }
 
     return(
-        <main className="flex flex-col items-center justify-start w-full h-full m-0 p-0 pt-40 box-border pt-10 bg-gray-200">
-            <div className="absolute flex items-center justify-between bottom-160 bg-white w-[90%] h-[80px] sm:w-[80%] 
-            shadow-md rounded-xl p-6">
+        <main className="flex flex-col items-center justify-start w-full h-full m-0 p-0 pt-40 box-border pt-10 bg-taupe-200">
+            <div className="absolute flex items-center justify-between bottom-157 bg-white w-[90%] h-[90px] sm:w-[80%] 
+            shadow-md rounded-md p-6">
                 <h1 className="text-3xl font-medium">Users</h1>
                 <button className=" flex items-center justify-center gap-3 cursor-pointer bg-green-500 hover:bg-green-700 
                     rounded-lg text-white w-[130px] h-[40px] transition duration-100 ease-in-out">
@@ -65,14 +81,14 @@ function Users (){
                 </button>
             </div>
             <div className="RequestTableContainer relative flex items-start justify-start
-            bg-white shadow-md rounded-xl w-[90%] h-[500px] sm:w-[80%] box-border">
+            bg-white shadow-md rounded w-[90%] h-[500px] sm:w-[80%] box-border">
                 <table className="w-full border-collapse">
                     <thead>
-                        <tr className="text-[10px] uppercase bg-slate-600 text-white h-[2rem] md:h-[4rem] md:text-sm">
-                            <th className="rounded-tl-xl w-[200px]">EnrollNumber</th>
+                        <tr className="text-[10px] uppercase bg-slate-600 text-white h-[2rem] md:h-[3rem] md:text-sm">
+                            <th className="rounded-tl w-[200px]">EnrollNumber</th>
                             <th className="w-[200px]">Role</th>
                             <th className="w-[200px]">Department</th>
-                            <th className="rounded-tr-xl w-[200px]">Actions</th>
+                            <th className="rounded-tr w-[200px]">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -119,11 +135,25 @@ function Users (){
                     </tbody>
                 </table>
             </div>
+
             {isOpen && (
                 <div className=" flex items-center justify-center fixed bottom-1 w-full h-screen
                 rounded bg-black/70 z-20">
+                    {save && (
+                        <div
+                        className="successMessageContainer absolute w-[225px] h-[225px] rounded-lg shadow-xl/20 bg-white flex 
+                        flex-col gap-1 justify-center items-center pb-7 z-1 border-1 border-gray-300">
+                            <img 
+                            src={check} 
+                            alt="successMessage"
+                            className=" w-[80px] h-[80px] mb-5" />
+                            <p className="text-lg font-medium">SUCCESS</p>
+                            <p className="text-gray-400">User updated successfully</p>
+                        </div>
+                    )}
+
                     <form 
-                    className=" relative bg-white w-[400px] h-[510px] shadow-md
+                    className=" relative bg-white w-[400px] h-[450px] shadow-md
                     rounded border-box pt-12 p-2 flex flex-col items-center"
                     onSubmit={handleSubmit}>
                         <button 
@@ -136,7 +166,7 @@ function Users (){
                             className="w-[20px]" />
                         </button>
 
-                        <p className="text-2xl mb-12">Edit Users</p>
+                        <p className="text-2xl mb-5">Edit Users</p>
 
                         <div 
                             className="enrollNumberContainer w-full h-[1px] flex justify-between
@@ -146,7 +176,7 @@ function Users (){
                                 type="text" 
                                 value={enrollNumber}
                                 readOnly
-                                className="outline-none"/>
+                                className="outline-none border-b-1 text-center"/>
                         </div>
 
                         <div 
@@ -179,11 +209,12 @@ function Users (){
                                 </select>
                         </div>
 
-                        <div className="leaveTypeContainer w-full h-[1px] flex justify-end items-center border-box pt-13 pr-2">
+                        <div className="SaveBtnContainer w-full h-[1px] flex justify-end items-center border-box pt-13 pr-2">
                             <button 
                             type="submit" 
                             className="bg-green-500 hover:bg-green-700 w-[150px] h-[40px] 
-                            text-white rounded-lg cursor-pointer transition ease-in-out duration-100">
+                            text-white rounded-lg cursor-pointer transition ease-in-out duration-100"
+                            disabled = {loading}>
                                 Save
                             </button>
                         </div>
