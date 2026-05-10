@@ -48,7 +48,7 @@ const Navbar = ({role}) =>{
 };
 
     return(
-        <nav className="bg-slate-800 w-full h-14 text-white box-border text-sm flex justify-between m-0 p-0">
+        <nav className="bg-gray-800 w-full h-14 text-white box-border text-sm flex justify-between m-0 p-0">
             <div className="flex justify-center items-center text-2xl box-border pl-5">
                 <h1>IKPC SLVL</h1>
             </div>

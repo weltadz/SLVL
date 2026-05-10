@@ -39,7 +39,7 @@ function ApprovalAdmin (){
                 <h1 className="absolute bottom-127 text-2xl font-medium md:text-3xl">Approvals</h1>
                 <table className="w-full border-collapse">
                     <thead>
-                        <tr className="text-[10px] uppercase bg-slate-600 text-white h-[2rem] md:h-[3rem] md:text-sm">
+                        <tr className="text-[10px] uppercase bg-blue-500 text-white h-[2rem] md:h-[3rem] md:text-sm">
                             <th className="rounded-tl w-[200px]">Enrollnumber</th>
                             <th className="w-[200px]">Start Date</th>
                             <th className="w-[200px]">End Date</th>

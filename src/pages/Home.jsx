@@ -115,7 +115,7 @@ function Home(){
                 </div>
                 <table className="w-full border-collapse">
                     <thead>
-                        <tr className="text-[10px] uppercase bg-slate-600 text-white h-[2rem] md:h-[3rem] md:text-sm">
+                        <tr className="text-[10px] uppercase bg-blue-500 text-white h-[2rem] md:h-[3rem] md:text-sm">
                             <th className="rounded-tl w-[200px]">Start Date</th>
                             <th className="w-[200px]">End Date</th>
                             <th className="w-[200px]">Reason</th>

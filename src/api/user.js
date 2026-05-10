@@ -26,3 +26,19 @@ export const patchUser = async (enrollNumber, roleId, departmentId)=>{
 
     return result.message;
 }
+
+export const addUser = async (enrollNumber, password, departmentId) =>{
+    const response = await fetchWithToken("https://localhost:7080/api/User",{
+        method: "POST",
+        headers: {'Content-Type' : 'application/json'},
+        body: JSON.stringify({enrollNumber, password, departmentId})
+    });
+
+    const result = await response.json();
+
+    if(!response.ok){
+        throw new Error(result.message);
+    }
+
+    return result.message;
+}

@@ -1,21 +1,46 @@
 import { useState, useEffect } from "react"
 import { getAllUser } from "../../api/user"
+import { getAllDepartment } from "../../api/department"
+import { getAllRole } from "../../api/role"
 import getUserId from "../../utils/GetUserId"
 import add from "../../assets/plus.png"
 import back from "../../assets/back.png"
 import { patchUser } from "../../api/user"
 import check from "../../assets/success.png"
+import { addUser } from "../../api/user"
 
 function Users (){
     const [users, setUser] = useState([]);
     const [isOpen, setOpen] = useState(false);
+    const [isAddUserFormOpen, setAddUserForm] = useState(false);
     const [enrollNumber, setEnrollNumber] = useState("");
+    const [password, setPassword] = useState("");
     const [roleId, setRole] = useState("");
     const [departmentId, setDepartment] = useState("");
     const [success, setSuccess] = useState("");
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
     const [save, setSave] = useState(false);
+    const [department, setDepartments] = useState([]);
+    const [role, setRoles] = useState([]);
+
+    const loadDepartment = async ()=>{
+        const data = await getAllDepartment();
+        setDepartments(data);
+    }
+
+    useEffect(()=>{
+        loadDepartment();
+    },[])
+
+    const loadRole = async ()=>{
+        const data = await getAllRole();
+        setRoles(data);
+    }
+
+    useEffect(()=>{
+        loadRole();
+    },[])
 
     const loadUser = async ()=>{
         const data = await getAllUser()
@@ -46,8 +71,17 @@ function Users (){
         },2000)
     }
 
-    const handleReturn = ()=>{
+    const handleReturnEdit = ()=>{
         setOpen(false);
+    }
+
+    const handleAddUserForm = async ()=>{
+        setAddUserForm(true);
+    }
+
+    const handleReturnUserForm = ()=>{
+        setAddUserForm(false);
+        
     }
 
     const handleSubmit = async (e)=>{
@@ -69,22 +103,39 @@ function Users (){
         }
     }
 
+    const handleAddUser = async (e)=>{
+        e.preventDefault();
+
+        try{
+            const message = await addUser(enrollNumber, password, departmentId);
+            setSuccess(message);
+            setError("");
+            loadUser();
+            successMessage()
+        }catch(error){
+            setError(error.message);
+            setSuccess("");
+        }
+    }
+
     return(
-        <main className="flex flex-col items-center justify-start w-full h-full m-0 p-0 pt-40 box-border pt-10 bg-taupe-200">
-            <div className="absolute flex items-center justify-between bottom-157 bg-white w-[90%] h-[90px] sm:w-[80%] 
+        <main className="flex flex-col items-center justify-start w-full h-full m-0 p-0 pt-33 box-border pt-10 bg-taupe-200">
+            <div className="absolute flex items-center justify-between bottom-165 bg-white w-[90%] h-[90px] sm:w-[80%] 
             shadow-md rounded-md p-6">
                 <h1 className="text-3xl font-medium">Users</h1>
-                <button className=" flex items-center justify-center gap-3 cursor-pointer bg-green-500 hover:bg-green-700 
-                    rounded-lg text-white w-[130px] h-[40px] transition duration-100 ease-in-out">
+                <button 
+                className=" flex items-center justify-center gap-3 cursor-pointer bg-green-500 hover:bg-green-700 
+                rounded-lg text-white w-[110px] h-[40px] transition duration-100 ease-in-out"
+                onClick={handleAddUserForm}>
                     <img src={add} alt="" className="w-[15px]" />
                     <p className="text-[15px]">Add User</p>
                 </button>
             </div>
             <div className="RequestTableContainer relative flex items-start justify-start
-            bg-white shadow-md rounded w-[90%] h-[500px] sm:w-[80%] box-border">
+            bg-white shadow-md rounded w-[90%] h-[600px] sm:w-[80%] box-border">
                 <table className="w-full border-collapse">
                     <thead>
-                        <tr className="text-[10px] uppercase bg-slate-600 text-white h-[2rem] md:h-[3rem] md:text-sm">
+                        <tr className="text-[10px] uppercase bg-gray-500 text-white h-[2rem] md:h-[3rem] md:text-sm">
                             <th className="rounded-tl w-[200px]">EnrollNumber</th>
                             <th className="w-[200px]">Role</th>
                             <th className="w-[200px]">Department</th>
@@ -136,9 +187,9 @@ function Users (){
                 </table>
             </div>
 
-            {isOpen && (
+            {isAddUserFormOpen && (
                 <div className=" flex items-center justify-center fixed bottom-1 w-full h-screen
-                rounded bg-black/70 z-20">
+                rounded bg-black/60 z-20">
                     {save && (
                         <div
                         className="successMessageContainer absolute w-[225px] h-[225px] rounded-lg shadow-xl/20 bg-white flex 
@@ -148,18 +199,98 @@ function Users (){
                             alt="successMessage"
                             className=" w-[80px] h-[80px] mb-5" />
                             <p className="text-lg font-medium">SUCCESS</p>
-                            <p className="text-gray-400">User updated successfully</p>
+                            <p className="text-gray-400">Add User Successfully</p>
                         </div>
                     )}
 
                     <form 
                     className=" relative bg-white w-[400px] h-[450px] shadow-md
                     rounded border-box pt-12 p-2 flex flex-col items-center"
+                    onSubmit={handleAddUser}>
+                        <button 
+                        className=" absolute left-2 top-2 bg-gray-300 hover:bg-gray-400 w-[40px] h-[40px] 
+                        rounded-md border-box pl-2 cursor-pointer hover:shadow-lg transition ease-in-out duration-100"
+                        onClick={handleReturnUserForm}>
+                            <img 
+                            src={back} 
+                            alt="return button"
+                            className="w-[20px]" />
+                        </button>
+
+                        <p className="text-2xl mb-5">Add User</p>
+
+                        <div 
+                            className="enrollNumberContainer w-full h-[1px] flex justify-between
+                            items-center border-box p-10">
+                                <label className="text-end w-[80px] border-box">EnrollNumber:</label>
+                                <input 
+                                type="text" 
+                                className="outline-none border-b-1 text-center"
+                                onChange={(e)=>setEnrollNumber(e.target.value)}/>
+                        </div>
+
+                        <div 
+                            className="enrollNumberContainer w-full h-[1px] flex justify-between
+                            items-center border-box p-10">
+                                <label className="text-end w-[80px] border-box">Password:</label>
+                                <input 
+                                type="password" 
+                                className="w-[200px] h-[40px] border-1 cursor-pointer outline-none border-box p-2 rounded"
+                                onChange={(e)=>setPassword(e.target.value)}/>
+                        </div>
+
+                        <div 
+                            className="departmentContainer w-full h-[1px] flex justify-between
+                            items-center border-box p-10">
+                                <label className="text-end w-[80px] border-box">Department:</label>
+                                <select
+                                className="w-[200px] h-[40px] border-1 cursor-pointer outline-none border-box p-2 
+                                rounded"
+                                onChange={(e)=>setDepartment(e.target.value)}>
+                                    {department.map((dep)=>(
+                                        <option key={dep.departmentId} value={dep.departmentId}>
+                                            {dep.departmentName}
+                                        </option>
+                                    ))}
+                                </select>
+                        </div>
+
+                        <div className="SaveBtnContainer w-full h-[1px] flex justify-end items-center border-box pt-13 pr-2">
+                            <button 
+                            type="submit" 
+                            className="bg-green-500 hover:bg-green-700 w-[150px] h-[40px] 
+                            text-white rounded-lg cursor-pointer transition ease-in-out duration-100">
+                                Add
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            )}
+
+            {isOpen && (
+                <div className=" flex items-center justify-center fixed bottom-1 w-full h-screen
+                rounded bg-black/60 z-20">
+                    {save && (
+                        <div
+                        className="successMessageContainer absolute w-[225px] h-[225px] rounded-lg shadow-xl/20 bg-white flex 
+                        flex-col gap-1 justify-center items-center pb-7 z-1 border-1 border-gray-300">
+                            <img 
+                            src={check} 
+                            alt="successMessage"
+                            className=" w-[80px] h-[80px] mb-5" />
+                            <p className="text-lg font-medium">SUCCESS</p>
+                            <p className="text-gray-400">User updated</p>
+                        </div>
+                    )}
+
+                    <form 
+                    className=" relative bg-white w-[400px] h-[450px] shadow-lg
+                    rounded border-box pt-12 p-2 flex flex-col items-center"
                     onSubmit={handleSubmit}>
                         <button 
                         className=" absolute left-2 top-2 bg-gray-300 hover:bg-gray-400 w-[40px] h-[40px] 
                         rounded-md border-box pl-2 cursor-pointer hover:shadow-lg transition ease-in-out duration-100"
-                        onClick={handleReturn}>
+                        onClick={handleReturnEdit}>
                             <img 
                             src={back} 
                             alt="return button"
@@ -187,10 +318,11 @@ function Users (){
                                 value={roleId}
                                 onChange={(e)=>setRole(e.target.value)}
                                 className="w-[200px] h-[40px] border-1 cursor-pointer outline-none border-box p-2 rounded">
-                                    <option value="2">Manager</option>
-                                    <option value="3">Supervisor</option>
-                                    <option value="4">HR</option>
-                                    <option value="5">Employee</option>
+                                    {role.map((r)=>(
+                                        <option key={r.roleId} value={r.roleId}>
+                                            {r.roleName}
+                                        </option>
+                                    ))}
                                 </select>
                         </div>
 
@@ -199,13 +331,15 @@ function Users (){
                             items-center border-box p-10">
                                 <label className="text-end w-[80px] border-box">Department:</label>
                                 <select
-                                className="w-[200px] h-[40px] border-1 cursor-pointer outline-none border-box p-2 rounded"
+                                className="w-[200px] h-[40px] border-1 cursor-pointer outline-none border-box p-2 
+                                rounded"
                                 value={departmentId}
                                 onChange={(e)=>setDepartment(e.target.value)}>
-                                    <option value="1">IT</option>
-                                    <option value="2">SPPL</option>
-                                    <option value="3">HRAD</option>
-                                    <option value="4">Production</option>
+                                    {department.map((dep)=>(
+                                        <option key={dep.departmentId} value={dep.departmentId}>
+                                            {dep.departmentName}
+                                        </option>
+                                    ))}
                                 </select>
                         </div>
 
