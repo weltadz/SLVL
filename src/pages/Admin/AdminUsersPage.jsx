@@ -7,20 +7,27 @@ import add from "../../assets/plus.png"
 import back from "../../assets/back.png"
 import { patchUser } from "../../api/user"
 import check from "../../assets/success.png"
+import cross from "../../assets/failed.png"
 import { addUser } from "../../api/user"
 
 function Users (){
     const [users, setUser] = useState([]);
+
     const [isOpen, setOpen] = useState(false);
     const [isAddUserFormOpen, setAddUserForm] = useState(false);
+
     const [enrollNumber, setEnrollNumber] = useState("");
     const [password, setPassword] = useState("");
     const [roleId, setRole] = useState("");
     const [departmentId, setDepartment] = useState("");
+
     const [success, setSuccess] = useState("");
-    const [error, setError] = useState("");
+    const [errors, setError] = useState("");
     const [loading, setLoading] = useState(false);
+
     const [save, setSave] = useState(false);
+    const [failed, setFailed] = useState(false);
+
     const [department, setDepartments] = useState([]);
     const [role, setRoles] = useState([]);
 
@@ -71,6 +78,14 @@ function Users (){
         },2000)
     }
 
+    const failedMessage = ()=>{
+        setFailed(true);
+
+        setTimeout(()=>{
+            setFailed(false);
+        },2000)
+    }
+
     const handleReturnEdit = ()=>{
         setOpen(false);
     }
@@ -95,8 +110,8 @@ function Users (){
             setError("");
             loadUser()
             successMessage();
-        }catch(error){
-            setError(error.message);
+        }catch(errors){
+            setError(errors.message);
             setSuccess("")
         }finally{
             setLoading(false);
@@ -112,16 +127,17 @@ function Users (){
             setError("");
             loadUser();
             successMessage()
-        }catch(error){
-            setError(error.message);
+        }catch(errors){
+            setError(errors.message);
             setSuccess("");
+            failedMessage();
         }
     }
 
     return(
-        <main className="flex flex-col items-center justify-start w-full h-full m-0 p-0 pt-33 box-border pt-10 bg-taupe-200">
+        <main className="flex flex-col items-center justify-start w-full h-full m-0 p-0 pt-45 box-border pt-10 bg-taupe-100">
             <div className="absolute flex items-center justify-between bottom-165 bg-white w-[90%] h-[90px] sm:w-[80%] 
-            shadow-md rounded-md p-6">
+            shadow-lg rounded-md p-6">
                 <h1 className="text-3xl font-medium">Users</h1>
                 <button 
                 className=" flex items-center justify-center gap-3 cursor-pointer bg-green-500 hover:bg-green-700 
@@ -131,11 +147,15 @@ function Users (){
                     <p className="text-[15px]">Add User</p>
                 </button>
             </div>
+
             <div className="RequestTableContainer relative flex items-start justify-start
-            bg-white shadow-md rounded w-[90%] h-[600px] sm:w-[80%] box-border">
+            bg-white shadow-lg rounded w-[90%] h-[500px] sm:w-[80%] box-border">
+                <h1 className="absolute bottom-126 text-2xl">
+                    User list
+                </h1>
                 <table className="w-full border-collapse">
                     <thead>
-                        <tr className="text-[10px] uppercase bg-gray-500 text-white h-[2rem] md:h-[3rem] md:text-sm">
+                        <tr className="text-[10px] uppercase bg-blue-500 text-white h-[2rem] md:h-[3rem] md:text-sm">
                             <th className="rounded-tl w-[200px]">EnrollNumber</th>
                             <th className="w-[200px]">Role</th>
                             <th className="w-[200px]">Department</th>
@@ -146,7 +166,7 @@ function Users (){
                         {users.length == 0 ? (
                             <tr className=" text-[15px] text-gray-500 h-[2rem] md:h-[3rem] md:text-[20px] 
                                 text-center">
-                                <td colSpan={3}>No user found</td>
+                                <td colSpan={4}>No user found</td>
                             </tr>
                         ):(
                             users.map((user , index)=>(
@@ -172,8 +192,8 @@ function Users (){
                                         className="bg-yellow-500 hover:bg-yellow-700 text-white h-[30px] w-[75px] 
                                         rounded cursor-pointer transition duration-100 ease-in-out"
                                         onClick={()=>{
-                                            setOpen(true);
-                                            setEnrollNumber(user.enrollNumber);
+                                            setOpen(true)
+                                            setEnrollNumber(user.enrollNumber)
                                             setDepartment(user.departmentId.toString())
                                             setRole(user.roleId.toString())
                                         }}>
@@ -196,10 +216,26 @@ function Users (){
                         flex-col gap-1 justify-center items-center pb-7 z-1 border-1 border-gray-300">
                             <img 
                             src={check} 
-                            alt="successMessage"
+                            alt="successIcon"
                             className=" w-[80px] h-[80px] mb-5" />
                             <p className="text-lg font-medium">SUCCESS</p>
                             <p className="text-gray-400">Add User Successfully</p>
+                        </div>
+                    )}
+
+                    {failed && (
+                        <div
+                        className="successMessageContainer absolute w-[225px] h-[225px] rounded-lg shadow-xl/20 bg-white flex 
+                        flex-col gap-1 justify-center items-center pb-7 z-1 border-1 border-gray-300">
+                            <img 
+                            src={cross} 
+                            alt="successMessage"
+                            className=" w-[80px] h-[80px] mb-5" />
+                            <p className="text-lg font-medium">FAILED</p>
+                            {errors &&
+                            <p className="text-gray-400">{errors}</p>
+                            }
+                            
                         </div>
                     )}
 
@@ -217,7 +253,7 @@ function Users (){
                             className="w-[20px]" />
                         </button>
 
-                        <p className="text-2xl mb-5">Add User</p>
+                        <p className="text-2xl mb-5">Add User Form</p>
 
                         <div 
                             className="enrollNumberContainer w-full h-[1px] flex justify-between
@@ -226,7 +262,8 @@ function Users (){
                                 <input 
                                 type="text" 
                                 className="outline-none border-b-1 text-center"
-                                onChange={(e)=>setEnrollNumber(e.target.value)}/>
+                                onChange={(e)=>setEnrollNumber(e.target.value)}
+                                required/>
                         </div>
 
                         <div 
@@ -236,7 +273,8 @@ function Users (){
                                 <input 
                                 type="password" 
                                 className="w-[200px] h-[40px] border-1 cursor-pointer outline-none border-box p-2 rounded"
-                                onChange={(e)=>setPassword(e.target.value)}/>
+                                onChange={(e)=>setPassword(e.target.value)}
+                                required/>
                         </div>
 
                         <div 
@@ -297,7 +335,7 @@ function Users (){
                             className="w-[20px]" />
                         </button>
 
-                        <p className="text-2xl mb-5">Edit Users</p>
+                        <p className="text-2xl mb-5">Edit User Form</p>
 
                         <div 
                             className="enrollNumberContainer w-full h-[1px] flex justify-between

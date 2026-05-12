@@ -10,3 +10,19 @@ export const getAllRole = async ()=>{
 
     return result;
 }
+
+export const patchRole = async (roleId, roleName)=>{
+    const response = await fetchWithToken(`https://localhost:7080/api/Role/${roleId}`,{
+        method: "PATCH",
+        headers: {"Content-Type" : "application/json"},
+        body: JSON.stringify({roleName})
+    });
+
+    const result = await response.json();
+
+    if(!response.ok){
+        throw new Error(result.message);
+    }
+
+    return result.message;
+}

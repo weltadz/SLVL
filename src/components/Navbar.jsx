@@ -12,7 +12,7 @@ const menuByRole = {
         {name: "Dashboard", link: "/admin/home"},
         {name: "Users", link: "/admin/users"},
         {name: "Approvals", link: "/admin/approvals"},
-        {name: "Departments"},
+        {name: "Settings", link: "/admin/settings"},
         {name: "Logout"}
     ],
     HR:[
@@ -48,7 +48,8 @@ const Navbar = ({role}) =>{
 };
 
     return(
-        <nav className="bg-gray-800 w-full h-14 text-white box-border text-sm flex justify-between m-0 p-0">
+        <nav className="bg-blue-700 w-full h-14 text-white box-border text-sm flex justify-between m-0 p-0 sticky top-0
+        z-10">
             <div className="flex justify-center items-center text-2xl box-border pl-5">
                 <h1>IKPC SLVL</h1>
             </div>
@@ -62,8 +63,8 @@ const Navbar = ({role}) =>{
 
             {/* Dropdown */}
             {isOpen && (
-                <div className="absolute right-0 bg-slate-800 flex flex-col justify-center items-center text-md 
-                 w-50 h-37 mt-13 sm:hidden box-border pb-1 z-10 ">
+                <div className="absolute right-0 bg-blue-700 flex flex-col justify-center items-center text-md 
+                 w-50 h-37 mt-13 sm:hidden box-border pb-1 z-100 rounded-bl-md">
                     {menu.map((item)=>(
                     item.name === "Logout"?(
                         <button key={item.name} onClick={handleLogout} className="cursor-pointer w-47 h-10 rounded 

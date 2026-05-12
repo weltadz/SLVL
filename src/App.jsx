@@ -13,6 +13,7 @@ import ApprovalSupervisor from "./pages/Supervisor/ApprovalSupervisor"
 import ApprovalManager from "./pages/Manager/ApprovalManager"
 import ApprovalAdmin from "./pages/Admin/ApprovalAdmin"
 import Users from "./pages/Admin/AdminUsersPage"
+import Settings from "./pages/Admin/SettingsAdmin"
 
 function App() {
   return(
@@ -68,6 +69,16 @@ function App() {
         <ProtectedRoutes allowedRoles = {["Admin"]}>
           <AdminLayout>
             <Users/>
+          </AdminLayout>
+        </ProtectedRoutes>
+      }
+      />
+
+      <Route path="/admin/settings" 
+      element={
+        <ProtectedRoutes allowedRoles = {["Admin"]}>
+          <AdminLayout>
+            <Settings/>
           </AdminLayout>
         </ProtectedRoutes>
       }

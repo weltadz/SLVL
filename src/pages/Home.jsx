@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react"
 import getLeaveBalance from "../api/getLeaveBalance"
-import { getLatestRequest } from "../api/getLatestRequest";
-import add from "../assets/plus.png";
-import back from "../assets/back.png";
-import backWhite from "../assets/backWhite.png";
-import createLeaveRequest from "../api/createRequest";
+import { getLatestRequest } from "../api/getLatestRequest"
+import add from "../assets/plus.png"
+import back from "../assets/back.png"
+import backWhite from "../assets/backWhite.png"
+import createLeaveRequest from "../api/createRequest"
+import check from "../assets/success.png"
+import failed from "../assets/failed.png"
 
 function Home(){
     // toggle request form
@@ -18,8 +20,8 @@ function Home(){
     const [reason, setReason] = useState("");
     const [documentTypeId, setLeaveType] = useState(1);
 
-    const [successMessage, setSuccess] = useState("");
-    const [errorMessage, setError] = useState("");
+    const [success, setSuccess] = useState("");
+    const [error, setError] = useState("");
 
     const [leaveBalance, setLeave] = useState({
         sickLeave: 0,
@@ -56,25 +58,17 @@ function Home(){
         return () => clearInterval(interval);
     },[])
 
-    useEffect(()=> {
-        if(errorMessage){
-            const timer = setTimeout(()=>{
-                setError("");
-            },3000)
+    const successMessage = ()=>{
+        setTimeout(()=>{
+            setSuccess("");
+        },2000)
+    }
 
-            return () => clearTimeout(timer);
-        }
-    },[errorMessage]);
-
-    useEffect(()=> {
-        if(successMessage){
-            const timer = setTimeout(()=>{
-                setSuccess("");
-            },3000)
-
-            return () => clearTimeout(timer);
-        }
-    },[successMessage]);
+    const errorMessage = ()=>{
+        setTimeout(() => {
+            setError("");
+        },2000);
+    }
 
     const handleSubmit = async (e) =>{
         e.preventDefault()
@@ -86,10 +80,12 @@ function Home(){
             setStartDate("");
             setEndDate("");
             setReason("");
+            successMessage();
         
         }catch(error){
             setError(error.message);
             setSuccess("");
+            errorMessage();
         }
     }
 
@@ -101,18 +97,24 @@ function Home(){
     }
 
     return(
-        <main className="flex flex-col items-center justify-start w-full h-full m-0 p-0 pt-50 box-border pt-10 bg-taupe-200">
+        <main className="flex flex-col items-center justify-start w-full h-full m-0 p-0 pt-45 box-border pt-10 bg-taupe-100">
+            <div className="absolute flex items-center justify-between bottom-165 bg-white w-[90%] h-[90px] z-0 sm:w-[80%] 
+            shadow-lg rounded-md p-6">
+                <h1 className="text-3xl font-medium">Dashboard</h1>
+                <button 
+                className=" flex items-center justify-center gap-3 cursor-pointer bg-green-500 hover:bg-green-700 
+                rounded-lg text-white w-[130px] h-[40px] transition duration-100 ease-in-out"
+                onClick={()=>setOpen(true)}>
+                    <img src={add} alt="addIcon" className="w-[15px]" />
+                    <p className="text-[15px]">Add request</p>
+                </button>
+            </div>
+
             <div className="latestRequestTableContainer relative flex items-start justify-start
-            bg-white shadow-md rounded w-[90%] h-[300px] sm:w-[80%] box-border">
-                <h1 className="absolute bottom-77 text-2xl font-medium md:text-3xl">Leave Request Overview</h1>
-                <div className="absolute right-5 bottom-77 box-border 
-                h-[35px] w-[110px]">
-                    <button className=" flex items-center justify-center gap-3 cursor-pointer bg-green-500 hover:bg-green-700 
-                    rounded-lg text-white w-[130px] h-[40px] transition duration-100 ease-in-out" onClick={()=>setOpen(true)}>
-                        <img src={add} alt="" className="w-[15px]" />
-                        <p className="text-[15px]">Add request</p>
-                    </button>
-                </div>
+            bg-white shadow-lg rounded w-[90%] h-[400px] sm:w-[80%] box-border">
+                <h1 className="absolute bottom-101 text-2xl">
+                    Leave request overview
+                </h1>
                 <table className="w-full border-collapse">
                     <thead>
                         <tr className="text-[10px] uppercase bg-blue-500 text-white h-[2rem] md:h-[3rem] md:text-sm">
@@ -149,7 +151,8 @@ function Home(){
                         )}
                     </tbody>
                 </table>
-                <div className="balanceContainer absolute flex flex-col items-end gap-5 top-80 w-[260px] h-[120px] bg-white 
+
+                <div className="balanceContainer absolute flex flex-col items-end gap-5 top-105 w-[260px] h-[120px] bg-white 
                 rounded p-2 shadow-md">
                     <div className="w-full h-[8px] box-border">
                         <p className="text-xs">Remaining balance</p>
@@ -171,8 +174,33 @@ function Home(){
             {isOpen && (
                 <div className=" flex items-center justify-center fixed bottom-1 w-full h-screen
                 rounded bg-black/70 z-20">
+                    {success && (
+                        <div
+                        className="successMessageContainer absolute w-[225px] h-[225px] rounded-lg shadow-xl/20 bg-white flex 
+                        flex-col gap-1 justify-center items-center pb-7 z-1 border-1 border-gray-300">
+                            <img 
+                            src={check} 
+                            alt="successIcon"
+                            className=" w-[80px] h-[80px] mb-5" />
+                            <p className="text-lg font-medium">SUCCESS</p>
+                            <p className="text-gray-400 w-[180px] text-center">{success}</p>
+                        </div>
+                    )}
+
+                    {error && (
+                        <div
+                        className="successMessageContainer absolute w-[225px] h-[225px] rounded-lg shadow-xl/20 bg-white flex 
+                        flex-col gap-1 justify-center items-center pb-7 z-1 border-1 border-gray-300">
+                            <img 
+                            src={failed} 
+                            alt="successIcon"
+                            className=" w-[80px] h-[80px] mb-5" />
+                            <p className="text-lg font-medium">FAILED</p>
+                            <p className="text-gray-400 w-[180px] text-center">{error}</p>
+                        </div>
+                    )}
                     <form 
-                    className=" relative bg-white w-[400px] h-[600px] shadow-md
+                    className=" relative bg-white w-[400px] h-[550px] shadow-md
                     rounded border-box pt-12 p-2 flex flex-col items-center"
                     onSubmit={handleSubmit}>
                         <button    
@@ -188,7 +216,7 @@ function Home(){
                             className="w-[20px]" />
                         </button>
 
-                        <p className="text-2xl mb-12">Leave Request Form</p>
+                        <p className="text-2xl mb-12">Add Request Form</p>
 
                         <div className="startDateContainer w-full h-[1px] flex justify-between
                         items-center border-box p-10">
