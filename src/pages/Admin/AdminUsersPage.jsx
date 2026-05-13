@@ -2,6 +2,8 @@ import { useState, useEffect } from "react"
 import { getAllUser } from "../../api/user"
 import { getAllDepartment } from "../../api/department"
 import { getAllRole } from "../../api/role"
+import { resetLeaveBalance } from "../../api/leaveBalance"
+import getLeaveBalance from "../../api/getLeaveBalance"
 import getUserId from "../../utils/GetUserId"
 import add from "../../assets/plus.png"
 import back from "../../assets/back.png"
@@ -31,6 +33,16 @@ function Users (){
     const [department, setDepartments] = useState([]);
     const [role, setRoles] = useState([]);
 
+    const [leaveBalance, setLeave] = useState({
+        sickLeave: 0,
+        vacationLeave: 0
+    });
+
+     const loadBalance = async () =>{
+        const data = await getLeaveBalance();
+        setLeave(data);
+    }
+
     const loadDepartment = async ()=>{
         const data = await getAllDepartment();
         setDepartments(data);
@@ -59,9 +71,11 @@ function Users (){
 
         const runRefresh = ()=>{
             loadUser();
+            loadBalance();
 
             const interval = setInterval(()=>{
                 loadUser();
+                loadBalance();
             },5000)
         }
 
@@ -126,7 +140,7 @@ function Users (){
             setSuccess(message);
             setError("");
             loadUser();
-            successMessage()
+            successMessage();
         }catch(errors){
             setError(errors.message);
             setSuccess("");
@@ -134,22 +148,79 @@ function Users (){
         }
     }
 
+    const handleResetBalanceBtn = async (e)=>{
+        e.preventDefault()
+
+        try{
+            const message = await resetLeaveBalance();
+            setSuccess(message);
+            setError("");
+            loadBalance();
+            successMessage();
+        }catch(error){
+            setError(error.message);
+            setSuccess("");
+            failedMessage();
+        }
+    }
+
     return(
         <main className="flex flex-col items-center justify-start w-full h-full m-0 p-0 pt-45 box-border pt-10 bg-taupe-100">
-            <div className="absolute flex items-center justify-between bottom-165 bg-white w-[90%] h-[90px] sm:w-[80%] 
-            shadow-lg rounded-md p-6">
-                <h1 className="text-3xl font-medium">Users</h1>
-                <button 
-                className=" flex items-center justify-center gap-3 cursor-pointer bg-green-500 hover:bg-green-700 
-                rounded-lg text-white w-[110px] h-[40px] transition duration-100 ease-in-out"
-                onClick={handleAddUserForm}>
-                    <img src={add} alt="" className="w-[15px]" />
-                    <p className="text-[15px]">Add User</p>
-                </button>
-            </div>
+            {save && (
+                        <div
+                        className="successMessageContainer absolute left-[100] top-65 w-[225px] h-[225px] rounded-lg shadow-xl/20 bg-white flex 
+                        flex-col gap-1 justify-center items-center pb-7 z-1 border-1 border-gray-300">
+                            <img 
+                            src={check} 
+                            alt="successIcon"
+                            className=" w-[80px] h-[80px] mb-5" />
+                            <p className="text-lg font-medium">SUCCESS</p>
+                            <p className="text-gray-400">Balance updated</p>
+                        </div>
+                    )}
+
+                    {failed && (
+                        <div
+                        className="successMessageContainer absolute w-[225px] h-[225px] rounded-lg shadow-xl/20 bg-white flex 
+                        flex-col gap-1 justify-center items-center pb-7 z-1 border-1 border-gray-300">
+                            <img 
+                            src={cross} 
+                            alt="successMessage"
+                            className=" w-[80px] h-[80px] mb-5" />
+                            <p className="text-lg font-medium">FAILED</p>
+                            {errors &&
+                            <p className="text-gray-400">{errors}</p>
+                            }
+                            
+                        </div>
+                    )}
+            
 
             <div className="RequestTableContainer relative flex items-start justify-start
             bg-white shadow-lg rounded w-[90%] h-[500px] sm:w-[80%] box-border">
+
+                <div className="absolute flex items-center justify-between bottom-143 bg-white w-full h-[90px] 
+                shadow-lg rounded-md p-6">
+                <h1 className="text-3xl font-medium">Users</h1>
+                <div className="btnContainer flex gap-2">
+                    <button 
+                    className=" flex items-center justify-center gap-3 cursor-pointer bg-green-500 hover:bg-green-700 
+                    rounded-lg text-white w-[110px] h-[40px] transition duration-100 ease-in-out"
+                    onClick={handleAddUserForm}>
+                        <img src={add} alt="" className="w-[15px]" />
+                        <p className="text-[15px]">Add User</p>
+                    </button>
+
+                    <button 
+                    className=" flex items-center justify-center gap-3 cursor-pointer bg-red-500 hover:bg-red-700 
+                    rounded-lg text-white w-[110px] h-[40px] transition duration-100 ease-in-out"
+                    onClick={handleResetBalanceBtn}>
+                        <p className="text-[15px]">Reset Balance</p>
+                    </button>
+                </div>
+                
+            </div>
+
                 <h1 className="absolute bottom-126 text-2xl">
                     User list
                 </h1>
@@ -159,6 +230,8 @@ function Users (){
                             <th className="rounded-tl w-[200px]">EnrollNumber</th>
                             <th className="w-[200px]">Role</th>
                             <th className="w-[200px]">Department</th>
+                            <th className="w-[200px]">SickLeave</th>
+                            <th className="w-[200px]">VacationLeave</th>
                             <th className="rounded-tr w-[200px]">Actions</th>
                         </tr>
                     </thead>
@@ -166,7 +239,7 @@ function Users (){
                         {users.length == 0 ? (
                             <tr className=" text-[15px] text-gray-500 h-[2rem] md:h-[3rem] md:text-[20px] 
                                 text-center">
-                                <td colSpan={4}>No user found</td>
+                                <td colSpan={6}>No user found</td>
                             </tr>
                         ):(
                             users.map((user , index)=>(
@@ -187,6 +260,8 @@ function Users (){
                                         :user.departmentId == 3? "HRAD"
                                         : "Production"}
                                     </td>
+                                    <td>{leaveBalance.sickLeave}</td>
+                                    <td>{leaveBalance.vacationLeave}</td>
                                     <td>
                                         <button 
                                         className="bg-yellow-500 hover:bg-yellow-700 text-white h-[30px] w-[75px] 

@@ -34,13 +34,14 @@ function ApprovalAdmin (){
 
     return(
         <main className="flex flex-col items-center justify-start w-full h-full m-0 p-0 pt-45 box-border pt-10 bg-taupe-100">
-            <div className="absolute flex items-center justify-between bottom-165 bg-white w-[90%] h-[90px] sm:w-[80%] 
-            shadow-lg rounded-md p-6">
+            <div className="RequestTableContainer relative flex items-start justify-start
+            bg-white shadow-lg rounded w-[90%] h-[500px] sm:w-[80%] box-border">
+
+                <div className="absolute flex items-center justify-between bottom-143 bg-white w-full h-[90px] 
+                shadow-lg rounded-md p-6">
                 <h1 className="text-3xl font-medium">Approvals</h1>
             </div>
 
-            <div className="RequestTableContainer relative flex items-start justify-start
-            bg-white shadow-lg rounded w-[90%] h-[500px] sm:w-[80%] box-border">
                 <h1 className="absolute bottom-126 text-2xl">
                     For approval
                 </h1>

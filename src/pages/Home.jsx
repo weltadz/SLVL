@@ -98,7 +98,10 @@ function Home(){
 
     return(
         <main className="flex flex-col items-center justify-start w-full h-full m-0 p-0 pt-45 box-border pt-10 bg-taupe-100">
-            <div className="absolute flex items-center justify-between bottom-165 bg-white w-[90%] h-[90px] z-0 sm:w-[80%] 
+            <div className="latestRequestTableContainer relative flex items-start justify-start
+            bg-white shadow-lg rounded w-[90%] h-[400px] sm:w-[80%] box-border">
+
+                <div className="absolute flex items-center justify-between bottom-118 bg-white w-full h-[90px] z-0 
             shadow-lg rounded-md p-6">
                 <h1 className="text-3xl font-medium">Dashboard</h1>
                 <button 
@@ -110,8 +113,6 @@ function Home(){
                 </button>
             </div>
 
-            <div className="latestRequestTableContainer relative flex items-start justify-start
-            bg-white shadow-lg rounded w-[90%] h-[400px] sm:w-[80%] box-border">
                 <h1 className="absolute bottom-101 text-2xl">
                     Leave request overview
                 </h1>
