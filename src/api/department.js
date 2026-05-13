@@ -1,5 +1,21 @@
 import fetchWithToken from "../utils/FetchWithToken";
 
+export const addDepartment = async (departmentName)=>{
+    const response = await fetchWithToken("https://localhost:7080/api/Department",{
+        method: "POST",
+        headers: {"Content-Type" : "application/json"},
+        body: JSON.stringify({departmentName})
+    });
+
+    const result = await response.json();
+
+    if(!response.ok){
+        throw new Error(result.message);
+    }
+
+    return result.message;
+}
+
 export const getAllDepartment = async ()=>{
     const response = await fetchWithToken ("https://localhost:7080/api/Department");
     const result = await response.json();
