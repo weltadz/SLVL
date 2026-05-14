@@ -66,4 +66,15 @@ export const getAllRequestApprovalAdmin = async ()=>{
     return result;
 }
 
+export const getAllCompletedRequestForEachUser = async (userId)=>{
+    const response = await fetchWithToken(`https://localhost:7080/api/LeaveRequest/${userId}`);
+    const result = await response.json();
+
+    if(!response.ok){
+        throw new Error(result.message);
+    }
+
+    return result;
+}
+
 

@@ -102,16 +102,16 @@ function Home(){
             bg-white shadow-lg rounded w-[90%] h-[400px] sm:w-[80%] box-border">
 
                 <div className="absolute flex items-center justify-between bottom-118 bg-white w-full h-[90px] z-0 
-            shadow-lg rounded-md p-6">
-                <h1 className="text-3xl font-medium">Dashboard</h1>
-                <button 
-                className=" flex items-center justify-center gap-3 cursor-pointer bg-green-500 hover:bg-green-700 
-                rounded-lg text-white w-[130px] h-[40px] transition duration-100 ease-in-out"
-                onClick={()=>setOpen(true)}>
-                    <img src={add} alt="addIcon" className="w-[15px]" />
-                    <p className="text-[15px]">Add request</p>
-                </button>
-            </div>
+                shadow-lg rounded-md p-6">
+                    <h1 className="text-3xl font-medium">Dashboard</h1>
+                    <button 
+                    className=" flex items-center justify-center gap-3 cursor-pointer bg-green-500 hover:bg-green-700 
+                    rounded-lg text-white w-[130px] h-[40px] transition duration-100 ease-in-out"
+                    onClick={()=>setOpen(true)}>
+                        <img src={add} alt="addIcon" className="w-[15px]" />
+                        <p className="text-[15px]">Add request</p>
+                    </button>
+                </div>
 
                 <h1 className="absolute bottom-101 text-2xl">
                     Leave request overview

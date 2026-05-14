@@ -17,6 +17,7 @@ const menuByRole = {
     ],
     HR:[
         {name: "Dashboard", link: "/hr/home"},
+        {name: "Employees", link: "/hr/employees"},
         {name: "Approvals", link: "/hr/approvals"},
         {name: "Requests", link: "/hr/request"},
         {name: "Logout"}

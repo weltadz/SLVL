@@ -167,17 +167,17 @@ function Users (){
     return(
         <main className="flex flex-col items-center justify-start w-full h-full m-0 p-0 pt-45 box-border pt-10 bg-taupe-100">
             {save && (
-                        <div
-                        className="successMessageContainer absolute left-[100] top-65 w-[225px] h-[225px] rounded-lg shadow-xl/20 bg-white flex 
-                        flex-col gap-1 justify-center items-center pb-7 z-1 border-1 border-gray-300">
-                            <img 
-                            src={check} 
-                            alt="successIcon"
-                            className=" w-[80px] h-[80px] mb-5" />
-                            <p className="text-lg font-medium">SUCCESS</p>
-                            <p className="text-gray-400">Balance updated</p>
-                        </div>
-                    )}
+                <div
+                className="successMessageContainer absolute left-[100] top-65 w-[225px] h-[225px] rounded-lg shadow-xl/20 bg-white flex 
+                flex-col gap-1 justify-center items-center pb-7 z-1 border-1 border-gray-300">
+                    <img 
+                    src={check} 
+                    alt="successIcon"
+                    className=" w-[80px] h-[80px] mb-5" />
+                    <p className="text-lg font-medium">SUCCESS</p>
+                    <p className="text-gray-400">Balance updated</p>
+                </div>
+            )}
 
                     {failed && (
                         <div
@@ -196,33 +196,33 @@ function Users (){
                     )}
             
 
-            <div className="RequestTableContainer relative flex items-start justify-start
+            <div className="UserTableContainer relative flex items-start justify-start
             bg-white shadow-lg rounded w-[90%] h-[500px] sm:w-[80%] box-border">
 
                 <div className="absolute flex items-center justify-between bottom-143 bg-white w-full h-[90px] 
                 shadow-lg rounded-md p-6">
-                <h1 className="text-3xl font-medium">Users</h1>
-                <div className="btnContainer flex gap-2">
-                    <button 
-                    className=" flex items-center justify-center gap-3 cursor-pointer bg-green-500 hover:bg-green-700 
-                    rounded-lg text-white w-[110px] h-[40px] transition duration-100 ease-in-out"
-                    onClick={handleAddUserForm}>
-                        <img src={add} alt="" className="w-[15px]" />
-                        <p className="text-[15px]">Add User</p>
-                    </button>
+                    <h1 className="text-3xl font-medium">Users</h1>
+                    <div className="btnContainer flex gap-2">
+                        <button 
+                        className=" flex items-center justify-center gap-3 cursor-pointer bg-green-500 hover:bg-green-700 
+                        rounded-lg text-white w-[110px] h-[40px] transition duration-100 ease-in-out"
+                        onClick={handleAddUserForm}>
+                            <img src={add} alt="" className="w-[15px]" />
+                            <p className="text-[15px]">Add User</p>
+                        </button>
 
-                    <button 
-                    className=" flex items-center justify-center gap-3 cursor-pointer bg-red-500 hover:bg-red-700 
-                    rounded-lg text-white w-[110px] h-[40px] transition duration-100 ease-in-out"
-                    onClick={handleResetBalanceBtn}>
-                        <p className="text-[15px]">Reset Balance</p>
-                    </button>
-                </div>
+                        <button 
+                        className=" flex items-center justify-center gap-3 cursor-pointer bg-red-500 hover:bg-red-700 
+                        rounded-lg text-white w-[110px] h-[40px] transition duration-100 ease-in-out"
+                        onClick={handleResetBalanceBtn}>
+                            <p className="text-[15px]">Reset Balance</p>
+                        </button>
+                    </div>
                 
-            </div>
+                </div>
 
                 <h1 className="absolute bottom-126 text-2xl">
-                    User list
+                    User List
                 </h1>
                 <table className="w-full border-collapse">
                     <thead>
@@ -230,8 +230,6 @@ function Users (){
                             <th className="rounded-tl w-[200px]">EnrollNumber</th>
                             <th className="w-[200px]">Role</th>
                             <th className="w-[200px]">Department</th>
-                            <th className="w-[200px]">SickLeave</th>
-                            <th className="w-[200px]">VacationLeave</th>
                             <th className="rounded-tr w-[200px]">Actions</th>
                         </tr>
                     </thead>
@@ -239,7 +237,7 @@ function Users (){
                         {users.length == 0 ? (
                             <tr className=" text-[15px] text-gray-500 h-[2rem] md:h-[3rem] md:text-[20px] 
                                 text-center">
-                                <td colSpan={6}>No user found</td>
+                                <td colSpan={4}>No user found</td>
                             </tr>
                         ):(
                             users.map((user , index)=>(
@@ -260,8 +258,6 @@ function Users (){
                                         :user.departmentId == 3? "HRAD"
                                         : "Production"}
                                     </td>
-                                    <td>{leaveBalance.sickLeave}</td>
-                                    <td>{leaveBalance.vacationLeave}</td>
                                     <td>
                                         <button 
                                         className="bg-yellow-500 hover:bg-yellow-700 text-white h-[30px] w-[75px] 

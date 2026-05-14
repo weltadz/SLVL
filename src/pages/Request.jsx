@@ -38,11 +38,14 @@ function Request (){
     },[])
 
     return(
-        <main className="flex flex-col items-center justify-start w-full h-full m-0 p-0 pt-50 box-border pt-10 bg-taupe-200">
+        <main className="flex flex-col items-center justify-start w-full h-full m-0 p-0 pt-45 box-border pt-10 bg-taupe-100">
             <div className="RequestTableContainer relative flex items-start justify-start
             bg-white shadow-md rounded w-[90%] h-[500px] sm:w-[80%] box-border">
-                <h1 className="absolute bottom-127 text-2xl font-medium md:text-3xl">Leave Request</h1>
-                <div className="absolute right-1 bottom-126 box-border h-[40px] w-[120px]">
+
+                <div className="absolute flex items-center justify-between bottom-143 bg-white w-full h-[90px] z-0 
+                shadow-lg rounded-md p-6">
+                    <h1 className="text-3xl font-medium">Request</h1>
+                    <div className="absolute right-5 bottom-7 box-border border-gray-100 h-[40px] w-[120px] shadow-lg">
                     <select
                     value={filter}
                     onChange={(e)=>setFilter(e.target.value)}
@@ -54,9 +57,15 @@ function Request (){
                         <option value="Completed">Completed</option>
                     </select>
                 </div>
+                </div>
+                
+                <h1 className="absolute bottom-126 text-2xl">
+                    Request List
+                </h1>
+                
                 <table className="w-full border-collapse">
                     <thead>
-                        <tr className="text-[10px] uppercase bg-slate-600 text-white h-[2rem] md:h-[3rem] md:text-sm">
+                        <tr className="text-[10px] uppercase bg-blue-500 text-white h-[2rem] md:h-[3rem] md:text-sm">
                             <th className="rounded-tl w-[200px]">Start Date</th>
                             <th className="w-[200px]">End Date</th>
                             <th className="w-[200px]">Reason</th>

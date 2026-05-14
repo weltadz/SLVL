@@ -13,6 +13,7 @@ import ApprovalSupervisor from "./pages/Supervisor/ApprovalSupervisor"
 import ApprovalManager from "./pages/Manager/ApprovalManager"
 import ApprovalAdmin from "./pages/Admin/ApprovalAdmin"
 import Users from "./pages/Admin/AdminUsersPage"
+import Employees from "./pages/HR/HrEmployeePage"
 import Settings from "./pages/Admin/SettingsAdmin"
 
 function App() {
@@ -110,6 +111,16 @@ function App() {
         <ProtectedRoutes allowedRoles = {["HR"]}>
           <HRLayout>
             <ApprovalHr/>
+          </HRLayout>
+        </ProtectedRoutes>
+      }
+      />
+
+      <Route path="/hr/employees" 
+      element={
+        <ProtectedRoutes allowedRoles = {["HR"]}>
+          <HRLayout>
+            <Employees/>
           </HRLayout>
         </ProtectedRoutes>
       }
