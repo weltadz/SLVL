@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import { getAllUser } from "../../api/user"
+import { deleteUser } from "../../api/user"
 import { getAllDepartment } from "../../api/department"
 import { getAllRole } from "../../api/role"
 import { resetLeaveBalance } from "../../api/leaveBalance"
@@ -11,6 +12,7 @@ import { patchUser } from "../../api/user"
 import check from "../../assets/success.png"
 import cross from "../../assets/failed.png"
 import { addUser } from "../../api/user"
+import warning from "../../assets/warning.png"
 
 function Users (){
     const [users, setUser] = useState([]);
@@ -37,6 +39,8 @@ function Users (){
         sickLeave: 0,
         vacationLeave: 0
     });
+
+    const [deleteConfirmation, setConfirmation] = useState(false);
 
      const loadBalance = async () =>{
         const data = await getLeaveBalance();
@@ -148,6 +152,24 @@ function Users (){
         }
     }
 
+    const handleDeleteUser = async (e)=>{
+        e.preventDefault();
+
+        try{
+            const message = await deleteUser(enrollNumber);
+            setSuccess(message);
+            setError("");
+            loadUser();
+            successMessage();
+            setConfirmation(false)
+        }catch(errors){
+            setError(errors.message);
+            setSuccess("");
+            failedMessage();
+            setConfirmation(false);
+        }
+    }
+
     const handleResetBalanceBtn = async (e)=>{
         e.preventDefault()
 
@@ -157,15 +179,50 @@ function Users (){
             setError("");
             loadBalance();
             successMessage();
+            setConfirmation(false);
         }catch(error){
             setError(error.message);
             setSuccess("");
             failedMessage();
+            setConfirmation(false);
         }
     }
 
     return(
         <main className="flex flex-col items-center justify-start w-full h-full m-0 p-0 pt-45 box-border pt-10 bg-taupe-100">
+            {deleteConfirmation && (
+                <div className="successMessageContainer absolute left-[100] top-65 w-[300px] h-[300px] rounded-lg 
+                shadow-xl/20 bg-white flex flex-col gap-5 justify-center items-center  z-1 border-1 border-gray-300
+                p-3">
+                    <div className="">
+                        <img 
+                        src={warning} 
+                        alt="warningIcon"
+                        className="w-[80px] h-[80px]" />
+                    </div>
+                    <div className="w-full h-[20px] text-center text-2xl font-medium">
+                        <p>Are you sure?</p>
+                    </div>
+                    <div className="w-full h-[50px] text-center text-gray-400">
+                        <p>Do you really want to delete this employee?</p>
+                    </div>
+                    <div className="w-full h-[50px] flex items-center justify-center gap-2">
+                        <button 
+                        className="bg-red-500 hover:bg-red-700 text-white h-[40px] w-[90px] 
+                        rounded cursor-pointer transition duration-100 ease-in-out "
+                        onClick={handleDeleteUser}>
+                            Delete
+                        </button>
+                        <button
+                        className="bg-gray-400 hover:bg-gray-600 text-white h-[40px] w-[90px] 
+                        rounded cursor-pointer transition duration-100 ease-in-out"
+                        onClick={()=>setConfirmation(false)}>
+                            Cancel
+                        </button>
+                    </div>
+                </div> 
+            )}
+
             {save && (
                 <div
                 className="successMessageContainer absolute left-[100] top-65 w-[225px] h-[225px] rounded-lg shadow-xl/20 bg-white flex 
@@ -175,7 +232,7 @@ function Users (){
                     alt="successIcon"
                     className=" w-[80px] h-[80px] mb-5" />
                     <p className="text-lg font-medium">SUCCESS</p>
-                    <p className="text-gray-400">Balance updated</p>
+                    <p className="text-gray-400">{success}</p>
                 </div>
             )}
 
@@ -251,7 +308,7 @@ function Users (){
                                     <td>
                                         <button 
                                         className="bg-yellow-500 hover:bg-yellow-700 text-white h-[30px] w-[75px] 
-                                        rounded cursor-pointer transition duration-100 ease-in-out"
+                                        rounded cursor-pointer transition duration-100 ease-in-out mr-2"
                                         onClick={()=>{
                                             setOpen(true)
                                             setEnrollNumber(user.enrollNumber)
@@ -259,6 +316,14 @@ function Users (){
                                             setRole(user.roleId.toString())
                                         }}>
                                             Edit
+                                        </button>
+                                        <button className="bg-red-500 hover:bg-red-700 text-white h-[30px] w-[75px] 
+                                        rounded cursor-pointer transition duration-100 ease-in-out"
+                                        onClick={()=>{
+                                            setConfirmation(true)
+                                            setEnrollNumber(user.enrollNumber)
+                                        }}>
+                                            Delete
                                         </button>
                                     </td>
                                 </tr>

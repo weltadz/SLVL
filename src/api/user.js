@@ -42,3 +42,17 @@ export const addUser = async (enrollNumber, password, departmentId) =>{
 
     return result.message;
 }
+
+export const deleteUser = async (enrollNumber)=>{
+    const response = await fetchWithToken(`https://localhost:7080/api/User/${enrollNumber}`,{
+        method: 'DELETE'
+    });
+
+    const result = await response.json();
+
+    if(!response.ok){
+        throw new Error(result.message);
+    }
+
+    return result.message;
+}
