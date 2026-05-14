@@ -246,18 +246,8 @@ function Users (){
                                 className="text-[10px] h-[2rem] text-center md:text-[15px] md:h-[3rem] 
                                 border-b-1 border-gray-300">
                                     <td>{user.enrollNumber}</td>
-                                    <td>{user.roleId == 1? "Admin"
-                                        :user.roleId == 2? "Manager"
-                                        :user.roleId == 3? "Supervisor"
-                                        :user.roleId == 4? "HR"
-                                        :"Employee"}
-                                    </td>
-                                    <td>
-                                        {user.departmentId == 1? "IT"
-                                        :user.departmentId == 2? "SPPL"
-                                        :user.departmentId == 3? "HRAD"
-                                        : "Production"}
-                                    </td>
+                                    <td>{user.roleName}</td>
+                                    <td>{user.departmentName}</td>
                                     <td>
                                         <button 
                                         className="bg-yellow-500 hover:bg-yellow-700 text-white h-[30px] w-[75px] 

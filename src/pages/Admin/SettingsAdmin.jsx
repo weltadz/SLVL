@@ -99,7 +99,7 @@ function Settings (){
             setSuccessMessage(message);
             setErroMessage("");
             loadSuccessPopUp();
-            loadRole();
+            loadDepartment();
         }catch(error){
             setErroMessage(error.message);
             setSuccessMessage("");
@@ -328,7 +328,7 @@ function Settings (){
                             alt="successIcon"
                             className=" w-[80px] h-[80px] mb-5" />
                             <p className="text-lg font-medium">SUCCESS</p>
-                            <p className="text-gray-400">{successMessage}</p>
+                            <p className="text-gray-400 text-center">{successMessage}</p>
                          </div>
                     )}
 
