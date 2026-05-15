@@ -57,8 +57,8 @@ function Login(){
     }
 
     return(
-        <div className="w-full min-h-screen m-0 p-0 flex items-center justify-center bg-gray-200">
-            <form className="login-container w-100 h-100 rounded-lg shadow-lg bg-white flex 
+        <div className="w-full min-h-screen m-0 p-0 flex items-center justify-center bg-taupe-100">
+            <form className="login-container w-100 h-100 rounded-lg shadow-xl border-1 border-gray-200 bg-white flex 
             flex-col items-center gap-5" onSubmit={handleLogin}>
 
                 <h1 className="text-3xl mt-5 mb-9 font-medium">LOGIN</h1>
@@ -92,8 +92,8 @@ function Login(){
                 </div>
 
                 <div className="login-btn-container">
-                    <button type="submit" className="login-btn bg-slate-800 text-white w-40 h-9 rounded-md 
-                    hover:bg-slate-600 cursor-pointer">
+                    <button type="submit" className="login-btn bg-green-600 text-white w-40 h-9 rounded-md 
+                    hover:bg-green-800 cursor-pointer">
                         Submit
                     </button>
                 </div>

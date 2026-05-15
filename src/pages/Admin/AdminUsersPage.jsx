@@ -51,7 +51,7 @@ function Users (){
         setLeave(data);
     }
 
-    const loadDepartment = async ()=>{
+    const loadDepartment = async (e)=>{
         const data = await getAllDepartment();
         setDepartments(data);
     }
@@ -524,9 +524,11 @@ function Users (){
                                 <label className="text-end w-[80px] border-box">Department:</label>
                                 <select
                                 className="w-[200px] h-[40px] border-1 cursor-pointer outline-none border-box p-2 
-                                rounded"
-                                value={role[0]}
+                                rounded text-center"
+                                value={departmentId}
                                 onChange={(e)=>setDepartment(e.target.value)}>
+                                    <option value="" disabled>~Select department~</option>
+
                                     {department.map((dep)=>(
                                         <option key={dep.departmentId} value={dep.departmentId}>
                                             {dep.departmentName}

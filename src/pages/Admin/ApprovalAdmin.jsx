@@ -13,7 +13,7 @@ function ApprovalAdmin (){
 
     const handleApprove = async (leaveRequestId) => {
         await patchLeaveRequest(leaveRequestId);
-        console.log("approvedBtn Clicked");
+        loadRequest();
     }
 
     useEffect(()=>{
