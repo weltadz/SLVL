@@ -5,7 +5,11 @@ export const patchLeaveRequest = async (leaveRequestId) => {
         method: "PATCH"
     });
 
+    const result = await response.json();
+
     if(!response.ok){
-        throw new Error("Something went wrong");
+        throw new Error(result.message);
     }
+
+    return result.message;
 }

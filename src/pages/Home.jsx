@@ -93,6 +93,7 @@ function Home(){
             setEndDate("");
             setReason("");
             successMessage();
+            loadRequest();
         
         }catch(error){
             setError(error.message);

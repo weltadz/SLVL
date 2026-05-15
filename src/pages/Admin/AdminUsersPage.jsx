@@ -30,6 +30,7 @@ function Users (){
 
     const [success, setSuccess] = useState("");
     const [errors, setError] = useState("");
+
     const [loading, setLoading] = useState(false);
 
     const [save, setSave] = useState(false);
@@ -524,6 +525,7 @@ function Users (){
                                 <select
                                 className="w-[200px] h-[40px] border-1 cursor-pointer outline-none border-box p-2 
                                 rounded"
+                                value={role[0]}
                                 onChange={(e)=>setDepartment(e.target.value)}>
                                     {department.map((dep)=>(
                                         <option key={dep.departmentId} value={dep.departmentId}>

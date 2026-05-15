@@ -1,10 +1,34 @@
 import { getAllRequestApprovalSupervisor } from "../../api/getLatestRequest"
 import { patchLeaveRequest } from "../../api/patchLeaveRequest";
 import { useState, useEffect } from "react"
+import check from "../../assets/success.png"
+import cross from "../../assets/failed.png"
 
 function ApprovalSupervisor (){
 
     const [approvalRequest, setApproval] = useState([]);
+
+    const [success, setSuccess] = useState("");
+    const [errors, setError] = useState("");
+
+    const [save, setSave] = useState(false);
+    const [failed, setFailed] = useState(false);
+
+    const successMessage = ()=>{
+        setSave(true);
+
+        setTimeout(()=>{
+            setSave(false);
+        },2000)
+    }
+
+    const failedMessage = ()=>{
+        setFailed(true);
+
+        setTimeout(()=>{
+            setFailed(false);
+        },2000)
+    }
 
     const loadRequest = async () => {
         const data = await getAllRequestApprovalSupervisor();
@@ -13,7 +37,7 @@ function ApprovalSupervisor (){
 
     const handleApprove = async (leaveRequestId) => {
         await patchLeaveRequest(leaveRequestId);
-        console.log("approvedBtn Clicked");
+        loadRequest();  
     }
 
     useEffect(()=>{
@@ -36,6 +60,35 @@ function ApprovalSupervisor (){
         <main className="flex flex-col items-center justify-start w-full h-full m-0 p-0 pt-45 box-border pt-10 bg-taupe-100">
             <div className="RequestTableContainer relative flex items-start justify-start
             bg-white shadow-md rounded w-[90%] h-[500px] sm:w-[80%] box-border">
+                {save && (
+                    <div
+                        className="successMessageContainer absolute w-[225px] h-[225px] rounded-lg shadow-xl/20 bg-white flex 
+                        flex-col gap-1 justify-center items-center pb-7 z-1 border-1 border-gray-300">
+                        <img
+                            src={check}
+                            alt="successIcon"
+                            className=" w-[80px] h-[80px] mb-5" />
+                        <p className="text-lg font-medium">SUCCESS</p>
+                        <p className="text-gray-400 text-center">{success}</p>
+                    </div>
+                )}
+
+                {failed && (
+                    <div
+                        className="successMessageContainer absolute w-[225px] h-[225px] rounded-lg shadow-xl/20 bg-white flex 
+                        flex-col gap-1 justify-center items-center pb-7 z-1 border-1 border-gray-300">
+                        <img
+                            src={cross}
+                            alt="successMessage"
+                            className=" w-[80px] h-[80px] mb-5" />
+                        <p className="text-lg font-medium">FAILED</p>
+                        {errors &&
+                            <p className="text-gray-400 text-center">{errors}</p>
+                        }
+
+                    </div>
+                )}
+                
                 <div className="absolute flex items-center justify-between bottom-143 bg-white w-full h-[90px] z-0 
                 shadow-lg rounded-md p-6">
                     <h1 className="text-3xl font-medium">Approvals</h1>
