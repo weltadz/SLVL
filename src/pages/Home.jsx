@@ -7,6 +7,7 @@ import backWhite from "../assets/backWhite.png"
 import createLeaveRequest from "../api/createRequest"
 import check from "../assets/success.png"
 import failed from "../assets/failed.png"
+import getUserRole from "../utils/GetUserRole"
 
 function Home(){
     // toggle request form
@@ -28,12 +29,23 @@ function Home(){
         vacationLeave: 0
     });
 
+    const [role, setRole] = useState("");
+
     const [latestRequest, setRequest] = useState([]);
 
     const loadBalance = async () =>{
         const data = await getLeaveBalance();
         setLeave(data);
     }
+
+    const loadRole = async ()=>{
+        const data = await getUserRole();
+        setRole(data);
+    }
+
+    useEffect(()=>{
+        loadRole();
+    },[])
 
     const loadRequest = async () =>{
         const data = await getLatestRequest();
@@ -103,7 +115,15 @@ function Home(){
 
                 <div className="absolute flex items-center justify-between bottom-118 bg-white w-full h-[90px] z-0 
                 shadow-lg rounded-md p-6">
-                    <h1 className="text-3xl font-medium">Dashboard</h1>
+                    <div className="flex items-center gap-5">
+                        <h1 className="flex items-center justify-center text-3xl font-medium h-[65px] pr-4 border-r-1
+                        border-gray-400">
+                            {role}
+                        </h1>
+                        <h1 className="text-3xl font-medium">
+                            Dashboard
+                        </h1>
+                    </div>
                     <button 
                     className=" flex items-center justify-center gap-3 cursor-pointer bg-green-500 hover:bg-green-700 
                     rounded-lg text-white w-[130px] h-[40px] transition duration-100 ease-in-out"

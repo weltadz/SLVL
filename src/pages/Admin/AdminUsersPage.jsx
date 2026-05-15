@@ -4,6 +4,7 @@ import { deleteUser } from "../../api/user"
 import { getAllDepartment } from "../../api/department"
 import { getAllRole } from "../../api/role"
 import { resetLeaveBalance } from "../../api/leaveBalance"
+import { resetPassword } from "../../api/user"
 import getLeaveBalance from "../../api/getLeaveBalance"
 import getUserId from "../../utils/GetUserId"
 import add from "../../assets/plus.png"
@@ -19,9 +20,11 @@ function Users (){
 
     const [isOpen, setOpen] = useState(false);
     const [isAddUserFormOpen, setAddUserForm] = useState(false);
+    const [isResetPasswordFormOpen, setResetPasswordForm] = useState(false);
 
     const [enrollNumber, setEnrollNumber] = useState("");
     const [password, setPassword] = useState("");
+    const [newPassword, setNewPassword] = useState("");
     const [roleId, setRole] = useState("");
     const [departmentId, setDepartment] = useState("");
 
@@ -114,6 +117,8 @@ function Users (){
 
     const handleReturnUserForm = ()=>{
         setAddUserForm(false);
+        setEnrollNumber("");
+        setPassword("");
         
     }
 
@@ -179,12 +184,31 @@ function Users (){
             setError("");
             loadBalance();
             successMessage();
-            setConfirmation(false);
         }catch(error){
             setError(error.message);
             setSuccess("");
             failedMessage();
-            setConfirmation(false);
+        }
+    }
+
+    const handleReturnResetForm = ()=>{
+        setResetPasswordForm(false);
+        setPassword("");
+        setEnrollNumber("");
+    }
+
+    const handleResetPasswordBtn = async (e)=>{
+        e.preventDefault()
+
+        try{
+            const message = await resetPassword(enrollNumber, newPassword);
+            setSuccess(message);
+            setError("");
+            successMessage();
+        }catch(error){
+            setError(error.message);
+            setSuccess("");
+            failedMessage();
         }
     }
 
@@ -232,7 +256,7 @@ function Users (){
                     alt="successIcon"
                     className=" w-[80px] h-[80px] mb-5" />
                     <p className="text-lg font-medium">SUCCESS</p>
-                    <p className="text-gray-400">{success}</p>
+                    <p className="text-gray-400 text-center">{success}</p>
                 </div>
             )}
 
@@ -273,6 +297,13 @@ function Users (){
                         rounded-lg text-white w-[110px] h-[40px] transition duration-100 ease-in-out"
                         onClick={handleResetBalanceBtn}>
                             <p className="text-[15px]">Reset Balance</p>
+                        </button>
+
+                        <button 
+                        className=" flex items-center justify-center gap-3 cursor-pointer bg-red-500 hover:bg-red-700 
+                        rounded-lg text-white w-[120px] h-[40px] transition duration-100 ease-in-out"
+                        onClick={()=>setResetPasswordForm(true)}>
+                            <p className="text-[15px]">Reset Password</p>
                         </button>
                     </div>
                 
@@ -333,6 +364,89 @@ function Users (){
                 </table>
             </div>
 
+            {isResetPasswordFormOpen && (
+                <div
+                className=" flex items-center justify-center fixed bottom-1 w-full h-screen
+                rounded bg-black/60 z-20">
+                    {save && (
+                        <div
+                        className="successMessageContainer absolute w-[225px] h-[225px] rounded-lg shadow-xl/20 bg-white flex 
+                        flex-col gap-1 justify-center items-center pb-7 z-1 border-1 border-gray-300">
+                            <img 
+                            src={check} 
+                            alt="successIcon"
+                            className=" w-[80px] h-[80px] mb-5" />
+                            <p className="text-lg font-medium">SUCCESS</p>
+                            <p className="text-gray-400 text-center">{success}</p>
+                        </div>
+                    )}
+
+                    {failed && (
+                        <div
+                        className="successMessageContainer absolute w-[225px] h-[225px] rounded-lg shadow-xl/20 bg-white flex 
+                        flex-col gap-1 justify-center items-center pb-7 z-1 border-1 border-gray-300">
+                            <img 
+                            src={cross} 
+                            alt="successMessage"
+                            className=" w-[80px] h-[80px] mb-5" />
+                            <p className="text-lg font-medium">FAILED</p>
+                            {errors &&
+                            <p className="text-gray-400 text-center">{errors}</p>
+                            }
+                            
+                        </div>
+                    )}
+
+                    <form
+                    className=" relative bg-white w-[400px] h-[350px] shadow-md
+                    rounded border-box pt-12 p-2 flex flex-col items-center"
+                    onSubmit={handleResetPasswordBtn}>
+                        <button
+                        className=" absolute left-2 top-2 bg-gray-300 hover:bg-gray-400 w-[40px] h-[40px] 
+                        rounded-md border-box pl-2 cursor-pointer hover:shadow-lg transition ease-in-out duration-100"
+                        onClick={handleReturnResetForm}>
+                            <img 
+                            src={back} 
+                            alt="returnIcon"
+                            className="w-[20px]" />
+                        </button>
+
+                        <p className="text-2xl mb-5">Reset Password Form</p>
+
+                        <div 
+                            className="enrollNumberContainer w-full h-[1px] flex justify-between
+                            items-center border-box p-10">
+                                <label className="text-end w-[80px] border-box">EnrollNumber:</label>
+                                <input 
+                                type="text" 
+                                className="outline-none border-b-1 text-center"
+                                onChange={(e)=>setEnrollNumber(e.target.value)}
+                                required/>
+                        </div>
+
+                        <div 
+                            className="resetPasswordContainer w-full h-[1px] flex justify-between
+                            items-center border-box p-10">
+                                <label className="text-end w-[80px] border-box">Password:</label>
+                                <input 
+                                type="password" 
+                                className="outline-none border-b-1 text-center"
+                                onChange={(e)=>setNewPassword(e.target.value)}
+                                required/>
+                        </div>
+
+                        <div className="ResetBtnContainer w-full h-[1px] flex justify-end items-center border-box pt-13 pr-2">
+                            <button 
+                            type="submit" 
+                            className="bg-red-500 hover:bg-red-700 w-[150px] h-[40px] 
+                            text-white rounded-lg cursor-pointer transition ease-in-out duration-100">
+                                Reset
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            )}
+
             {isAddUserFormOpen && (
                 <div className=" flex items-center justify-center fixed bottom-1 w-full h-screen
                 rounded bg-black/60 z-20">
@@ -345,7 +459,7 @@ function Users (){
                             alt="successIcon"
                             className=" w-[80px] h-[80px] mb-5" />
                             <p className="text-lg font-medium">SUCCESS</p>
-                            <p className="text-gray-400">Add User Successfully</p>
+                            <p className="text-gray-400">{success}</p>
                         </div>
                     )}
 
@@ -393,7 +507,7 @@ function Users (){
                         </div>
 
                         <div 
-                            className="enrollNumberContainer w-full h-[1px] flex justify-between
+                            className="passwordContainer w-full h-[1px] flex justify-between
                             items-center border-box p-10">
                                 <label className="text-end w-[80px] border-box">Password:</label>
                                 <input 

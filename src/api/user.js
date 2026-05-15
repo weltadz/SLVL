@@ -56,3 +56,19 @@ export const deleteUser = async (enrollNumber)=>{
 
     return result.message;
 }
+
+export const resetPassword = async (enrollNumber,newPassword)=>{
+    const response = await fetchWithToken("https://localhost:7080/api/User/Reset",{
+        method: "PATCH",
+        headers: {"Content-Type" : "application/json"},
+        body: JSON.stringify({enrollNumber, newPassword})
+    });
+
+    const result = await response.json();
+
+    if(!response.ok){
+        throw new Error(result.message);
+    }
+
+    return result.message;
+}
