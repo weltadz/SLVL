@@ -144,14 +144,15 @@ function Home(){
                             <th className="w-[200px]">End Date</th>
                             <th className="w-[200px]">Reason</th>
                             <th className="w-[200px]">Document Type</th>
-                            <th className="rounded-tr w-[200px]">Status</th>
+                            <th className="w-[200px]">Status</th>
+                            <th className="rounded-tr w-[200px]">TotalDays</th>
                         </tr>
                     </thead>
                     <tbody>
                         {latestRequest.length == 0 ? (
                             <tr className=" text-[15px] text-gray-500 h-[2rem] md:h-[3rem] md:text-[20px] 
                                 text-center">
-                                <td colSpan={5}>
+                                <td colSpan={6}>
                                     No leave request yet
                                 </td>
                             </tr>
@@ -168,6 +169,7 @@ function Home(){
                                         :item.statusId == 2? "Approved"
                                         : "Completed"}
                                     </td>
+                                    <td>{item.totalDays}</td>
                                 </tr>
                             ))
                         )}

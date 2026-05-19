@@ -1,7 +1,7 @@
 import fetchWithToken from "../utils/FetchWithToken";
 
 export const addDepartment = async (departmentName)=>{
-    const response = await fetchWithToken("https://localhost:7080/api/Department",{
+    const response = await fetchWithToken("http://10.198.10.7:500/api/Department",{
         method: "POST",
         headers: {"Content-Type" : "application/json"},
         body: JSON.stringify({departmentName})
@@ -17,7 +17,7 @@ export const addDepartment = async (departmentName)=>{
 }
 
 export const getAllDepartment = async ()=>{
-    const response = await fetchWithToken ("https://localhost:7080/api/Department");
+    const response = await fetchWithToken ("http://10.198.10.7:500/api/Department");
     const result = await response.json();
 
     if(!response.ok){
@@ -28,7 +28,7 @@ export const getAllDepartment = async ()=>{
 }
 
 export const patchDepartment = async (departmentId, departmentName)=>{
-    const response = await fetchWithToken (`https://localhost:7080/api/Department/${departmentId}`,{
+    const response = await fetchWithToken (`http://10.198.10.7:500/api/Department/${departmentId}`,{
         method: "PATCH",
         headers: {"Content-Type" : "application/json"},
         body: JSON.stringify({departmentName})

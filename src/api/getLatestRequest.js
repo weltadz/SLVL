@@ -1,7 +1,7 @@
 import fetchWithToken from "../utils/FetchWithToken";
 
 export const getLatestRequest = async () => {
-    const response = await fetchWithToken('https://localhost:7080/api/LeaveRequest');
+    const response = await fetchWithToken('http://10.198.10.7:500/api/LeaveRequest');
     const result = await response.json();
 
     if(!response.ok){
@@ -12,7 +12,7 @@ export const getLatestRequest = async () => {
 };
 
 export const getAllRequest = async () => {
-    const response = await fetchWithToken('https://localhost:7080/api/LeaveRequest/All');
+    const response = await fetchWithToken('http://10.198.10.7:500/api/LeaveRequest/All');
     const result = await response.json();
 
     if(!response.ok){
@@ -23,7 +23,7 @@ export const getAllRequest = async () => {
 };
 
 export const getAllRequestApprovalHr = async () =>{
-    const response = await fetchWithToken("https://localhost:7080/api/LeaveRequest/Hr");
+    const response = await fetchWithToken("http://10.198.10.7:500/api/LeaveRequest/Hr");
     const result = await response.json();
 
     if(!response.ok){
@@ -34,7 +34,7 @@ export const getAllRequestApprovalHr = async () =>{
 }
 
 export const getAllRequestApprovalSupervisor = async ()=>{
-    const response = await fetchWithToken("https://localhost:7080/api/LeaveRequest/Supervisor");
+    const response = await fetchWithToken("http://10.198.10.7:500/api/LeaveRequest/Supervisor");
     const result = await response.json();
 
     if(!response.ok){
@@ -45,7 +45,7 @@ export const getAllRequestApprovalSupervisor = async ()=>{
 }
 
 export const getAllRequestApprovalManager = async ()=>{
-    const response = await fetchWithToken("https://localhost:7080/api/LeaveRequest/Manager");
+    const response = await fetchWithToken("http://10.198.10.7:500/api/LeaveRequest/Manager");
     const result = await response.json();
 
     if(!response.ok){
@@ -56,7 +56,7 @@ export const getAllRequestApprovalManager = async ()=>{
 }
 
 export const getAllRequestApprovalAdmin = async ()=>{
-    const response = await fetchWithToken("https://localhost:7080/api/LeaveRequest/Admin");
+    const response = await fetchWithToken("http://10.198.10.7:500/api/LeaveRequest/Admin");
     const result = await response.json();
 
     if(!response.ok){
@@ -67,7 +67,7 @@ export const getAllRequestApprovalAdmin = async ()=>{
 }
 
 export const getAllCompletedRequestForEachUser = async (userId)=>{
-    const response = await fetchWithToken(`https://localhost:7080/api/LeaveRequest/${userId}`);
+    const response = await fetchWithToken(`http://10.198.10.7:500/api/LeaveRequest/${userId}`);
     const result = await response.json();
 
     if(!response.ok){

@@ -15,7 +15,7 @@ import cross from "../../assets/failed.png"
 import { addUser } from "../../api/user"
 import warning from "../../assets/warning.png"
 
-function Users (){
+function Users() {
     const [users, setUser] = useState([]);
 
     const [isOpen, setOpen] = useState(false);
@@ -46,129 +46,129 @@ function Users (){
 
     const [deleteConfirmation, setConfirmation] = useState(false);
 
-     const loadBalance = async () =>{
+    const loadBalance = async () => {
         const data = await getLeaveBalance();
         setLeave(data);
     }
 
-    const loadDepartment = async (e)=>{
+    const loadDepartment = async (e) => {
         const data = await getAllDepartment();
         setDepartments(data);
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         loadDepartment();
-    },[])
+    }, [])
 
-    const loadRole = async ()=>{
+    const loadRole = async () => {
         const data = await getAllRole();
         setRoles(data);
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         loadRole();
-    },[])
+    }, [])
 
-    const loadUser = async ()=>{
+    const loadUser = async () => {
         const data = await getAllUser()
         setUser(data);
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         let interval;
 
-        const runRefresh = ()=>{
+        const runRefresh = () => {
             loadUser();
             loadBalance();
 
-            const interval = setInterval(()=>{
+            const interval = setInterval(() => {
                 loadUser();
                 loadBalance();
-            },5000)
+            }, 5000)
         }
 
         runRefresh();
 
-        return ()=> clearInterval(interval);
-    },[])
+        return () => clearInterval(interval);
+    }, [])
 
-    const successMessage = ()=>{
+    const successMessage = () => {
         setSave(true);
 
-        setTimeout(()=>{
+        setTimeout(() => {
             setSave(false);
-        },2000)
+        }, 2000)
     }
 
-    const failedMessage = ()=>{
+    const failedMessage = () => {
         setFailed(true);
 
-        setTimeout(()=>{
+        setTimeout(() => {
             setFailed(false);
-        },2000)
+        }, 2000)
     }
 
-    const handleReturnEdit = ()=>{
+    const handleReturnEdit = () => {
         setOpen(false);
     }
 
-    const handleAddUserForm = async ()=>{
+    const handleAddUserForm = async () => {
         setAddUserForm(true);
     }
 
-    const handleReturnUserForm = ()=>{
+    const handleReturnUserForm = () => {
         setAddUserForm(false);
         setEnrollNumber("");
         setPassword("");
-        
+
     }
 
-    const handleSubmit = async (e)=>{
+    const handleSubmit = async (e) => {
         e.preventDefault()
 
         setLoading(true);
 
-        try{
+        try {
             const message = await patchUser(enrollNumber, roleId, departmentId)
             setSuccess(message);
             setError("");
             loadUser()
             successMessage();
-        }catch(errors){
+        } catch (errors) {
             setError(errors.message);
             setSuccess("")
-        }finally{
+        } finally {
             setLoading(false);
         }
     }
 
-    const handleAddUser = async (e)=>{
+    const handleAddUser = async (e) => {
         e.preventDefault();
 
-        try{
+        try {
             const message = await addUser(enrollNumber, password, departmentId);
             setSuccess(message);
             setError("");
             loadUser();
             successMessage();
-        }catch(errors){
+        } catch (errors) {
             setError(errors.message);
             setSuccess("");
             failedMessage();
         }
     }
 
-    const handleDeleteUser = async (e)=>{
+    const handleDeleteUser = async (e) => {
         e.preventDefault();
 
-        try{
+        try {
             const message = await deleteUser(enrollNumber);
             setSuccess(message);
             setError("");
             loadUser();
             successMessage();
             setConfirmation(false)
-        }catch(errors){
+        } catch (errors) {
             setError(errors.message);
             setSuccess("");
             failedMessage();
@@ -176,54 +176,54 @@ function Users (){
         }
     }
 
-    const handleResetBalanceBtn = async (e)=>{
+    const handleResetBalanceBtn = async (e) => {
         e.preventDefault()
 
-        try{
+        try {
             const message = await resetLeaveBalance();
             setSuccess(message);
             setError("");
             loadBalance();
             successMessage();
-        }catch(error){
+        } catch (error) {
             setError(error.message);
             setSuccess("");
             failedMessage();
         }
     }
 
-    const handleReturnResetForm = ()=>{
+    const handleReturnResetForm = () => {
         setResetPasswordForm(false);
         setPassword("");
         setEnrollNumber("");
     }
 
-    const handleResetPasswordBtn = async (e)=>{
+    const handleResetPasswordBtn = async (e) => {
         e.preventDefault()
 
-        try{
+        try {
             const message = await resetPassword(enrollNumber, newPassword);
             setSuccess(message);
             setError("");
             successMessage();
-        }catch(error){
+        } catch (error) {
             setError(error.message);
             setSuccess("");
             failedMessage();
         }
     }
 
-    return(
-        <main className="flex flex-col items-center justify-start w-full h-full m-0 p-0 pt-45 box-border pt-10 bg-taupe-100">
+    return (
+        <main className="relative flex flex-col items-center justify-start w-full h-full m-0 p-0 pt-45 box-border pt-10 bg-taupe-100">
             {deleteConfirmation && (
-                <div className="successMessageContainer absolute left-[100] top-65 w-[300px] h-[300px] rounded-lg 
+                <div className="successMessageContainer fixed w-[300px] h-[300px] rounded-lg 
                 shadow-xl/20 bg-white flex flex-col gap-5 justify-center items-center  z-1 border-1 border-gray-300
                 p-3">
                     <div className="">
-                        <img 
-                        src={warning} 
-                        alt="warningIcon"
-                        className="w-[80px] h-[80px]" />
+                        <img
+                            src={warning}
+                            alt="warningIcon"
+                            className="w-[80px] h-[80px]" />
                     </div>
                     <div className="w-full h-[20px] text-center text-2xl font-medium">
                         <p>Are you sure?</p>
@@ -232,51 +232,51 @@ function Users (){
                         <p>Do you really want to delete this employee?</p>
                     </div>
                     <div className="w-full h-[50px] flex items-center justify-center gap-2">
-                        <button 
-                        className="bg-red-500 hover:bg-red-700 text-white h-[40px] w-[90px] 
+                        <button
+                            className="bg-red-500 hover:bg-red-700 text-white h-[40px] w-[90px] 
                         rounded cursor-pointer transition duration-100 ease-in-out "
-                        onClick={handleDeleteUser}>
+                            onClick={handleDeleteUser}>
                             Delete
                         </button>
                         <button
-                        className="bg-gray-400 hover:bg-gray-600 text-white h-[40px] w-[90px] 
+                            className="bg-gray-400 hover:bg-gray-600 text-white h-[40px] w-[90px] 
                         rounded cursor-pointer transition duration-100 ease-in-out"
-                        onClick={()=>setConfirmation(false)}>
+                            onClick={() => setConfirmation(false)}>
                             Cancel
                         </button>
                     </div>
-                </div> 
+                </div>
             )}
 
             {save && (
                 <div
-                className="successMessageContainer absolute left-[100] top-65 w-[225px] h-[225px] rounded-lg shadow-xl/20 bg-white flex 
+                    className="successMessageContainer fixed w-[225px] h-[225px] rounded-lg shadow-xl/20 bg-white flex 
                 flex-col gap-1 justify-center items-center pb-7 z-1 border-1 border-gray-300">
-                    <img 
-                    src={check} 
-                    alt="successIcon"
-                    className=" w-[80px] h-[80px] mb-5" />
+                    <img
+                        src={check}
+                        alt="successIcon"
+                        className=" w-[80px] h-[80px] mb-5" />
                     <p className="text-lg font-medium">SUCCESS</p>
                     <p className="text-gray-400 text-center">{success}</p>
                 </div>
             )}
 
-                    {failed && (
-                        <div
-                        className="successMessageContainer absolute w-[225px] h-[225px] rounded-lg shadow-xl/20 bg-white flex 
+            {failed && (
+                <div
+                    className="successMessageContainer fixed w-[225px] h-[225px] rounded-lg shadow-xl/20 bg-white flex 
                         flex-col gap-1 justify-center items-center pb-7 z-1 border-1 border-gray-300">
-                            <img 
-                            src={cross} 
-                            alt="successMessage"
-                            className=" w-[80px] h-[80px] mb-5" />
-                            <p className="text-lg font-medium">FAILED</p>
-                            {errors &&
-                            <p className="text-gray-400">{errors}</p>
-                            }
-                            
-                        </div>
-                    )}
-            
+                    <img
+                        src={cross}
+                        alt="successMessage"
+                        className=" w-[80px] h-[80px] mb-5" />
+                    <p className="text-lg font-medium">FAILED</p>
+                    {errors &&
+                        <p className="text-gray-400">{errors}</p>
+                    }
+
+                </div>
+            )}
+
 
             <div className="UserTableContainer relative flex items-start justify-start
             bg-white shadow-lg rounded w-[90%] h-[500px] sm:w-[80%] box-border">
@@ -285,29 +285,29 @@ function Users (){
                 shadow-lg rounded-md p-6">
                     <h1 className="text-3xl font-medium">Users</h1>
                     <div className="btnContainer flex gap-2">
-                        <button 
-                        className=" flex items-center justify-center gap-3 cursor-pointer bg-green-500 hover:bg-green-700 
+                        <button
+                            className=" flex items-center justify-center gap-3 cursor-pointer bg-green-500 hover:bg-green-700 
                         rounded-lg text-white w-[110px] h-[40px] transition duration-100 ease-in-out"
-                        onClick={handleAddUserForm}>
+                            onClick={handleAddUserForm}>
                             <img src={add} alt="" className="w-[15px]" />
                             <p className="text-[15px]">Add User</p>
                         </button>
 
-                        <button 
-                        className=" flex items-center justify-center gap-3 cursor-pointer bg-red-500 hover:bg-red-700 
+                        <button
+                            className=" flex items-center justify-center gap-3 cursor-pointer bg-red-500 hover:bg-red-700 
                         rounded-lg text-white w-[110px] h-[40px] transition duration-100 ease-in-out"
-                        onClick={handleResetBalanceBtn}>
+                            onClick={handleResetBalanceBtn}>
                             <p className="text-[15px]">Reset Balance</p>
                         </button>
 
-                        <button 
-                        className=" flex items-center justify-center gap-3 cursor-pointer bg-red-500 hover:bg-red-700 
+                        <button
+                            className=" flex items-center justify-center gap-3 cursor-pointer bg-red-500 hover:bg-red-700 
                         rounded-lg text-white w-[120px] h-[40px] transition duration-100 ease-in-out"
-                        onClick={()=>setResetPasswordForm(true)}>
+                            onClick={() => setResetPasswordForm(true)}>
                             <p className="text-[15px]">Reset Password</p>
                         </button>
                     </div>
-                
+
                 </div>
 
                 <h1 className="absolute bottom-126 text-2xl">
@@ -328,33 +328,33 @@ function Users (){
                                 text-center">
                                 <td colSpan={4}>No user found</td>
                             </tr>
-                        ):(
-                            users.map((user , index)=>(
-                                <tr 
-                                key={index}
-                                className="text-[10px] h-[2rem] text-center md:text-[15px] md:h-[3rem] 
+                        ) : (
+                            users.map((user, index) => (
+                                <tr
+                                    key={index}
+                                    className="text-[10px] h-[2rem] text-center md:text-[15px] md:h-[3rem] 
                                 border-b-1 border-gray-300">
                                     <td>{user.enrollNumber}</td>
                                     <td>{user.roleName}</td>
                                     <td>{user.departmentName}</td>
                                     <td>
-                                        <button 
-                                        className="bg-yellow-500 hover:bg-yellow-700 text-white h-[30px] w-[75px] 
+                                        <button
+                                            className="bg-yellow-500 hover:bg-yellow-700 text-white h-[30px] w-[75px] 
                                         rounded cursor-pointer transition duration-100 ease-in-out mr-2"
-                                        onClick={()=>{
-                                            setOpen(true)
-                                            setEnrollNumber(user.enrollNumber)
-                                            setDepartment(user.departmentId.toString())
-                                            setRole(user.roleId.toString())
-                                        }}>
+                                            onClick={() => {
+                                                setOpen(true)
+                                                setEnrollNumber(user.enrollNumber)
+                                                setDepartment(user.departmentId.toString())
+                                                setRole(user.roleId.toString())
+                                            }}>
                                             Edit
                                         </button>
                                         <button className="bg-red-500 hover:bg-red-700 text-white h-[30px] w-[75px] 
                                         rounded cursor-pointer transition duration-100 ease-in-out"
-                                        onClick={()=>{
-                                            setConfirmation(true)
-                                            setEnrollNumber(user.enrollNumber)
-                                        }}>
+                                            onClick={() => {
+                                                setConfirmation(true)
+                                                setEnrollNumber(user.enrollNumber)
+                                            }}>
                                             Delete
                                         </button>
                                     </td>
@@ -367,16 +367,16 @@ function Users (){
 
             {isResetPasswordFormOpen && (
                 <div
-                className=" flex items-center justify-center fixed bottom-1 w-full h-screen
+                    className=" flex items-center justify-center fixed bottom-1 w-full h-screen
                 rounded bg-black/60 z-20">
                     {save && (
                         <div
-                        className="successMessageContainer absolute w-[225px] h-[225px] rounded-lg shadow-xl/20 bg-white flex 
+                            className="successMessageContainer absolute w-[225px] h-[225px] rounded-lg shadow-xl/20 bg-white flex 
                         flex-col gap-1 justify-center items-center pb-7 z-1 border-1 border-gray-300">
-                            <img 
-                            src={check} 
-                            alt="successIcon"
-                            className=" w-[80px] h-[80px] mb-5" />
+                            <img
+                                src={check}
+                                alt="successIcon"
+                                className=" w-[80px] h-[80px] mb-5" />
                             <p className="text-lg font-medium">SUCCESS</p>
                             <p className="text-gray-400 text-center">{success}</p>
                         </div>
@@ -384,62 +384,62 @@ function Users (){
 
                     {failed && (
                         <div
-                        className="successMessageContainer absolute w-[225px] h-[225px] rounded-lg shadow-xl/20 bg-white flex 
+                            className="successMessageContainer absolute w-[225px] h-[225px] rounded-lg shadow-xl/20 bg-white flex 
                         flex-col gap-1 justify-center items-center pb-7 z-1 border-1 border-gray-300">
-                            <img 
-                            src={cross} 
-                            alt="successMessage"
-                            className=" w-[80px] h-[80px] mb-5" />
+                            <img
+                                src={cross}
+                                alt="successMessage"
+                                className=" w-[80px] h-[80px] mb-5" />
                             <p className="text-lg font-medium">FAILED</p>
                             {errors &&
-                            <p className="text-gray-400 text-center">{errors}</p>
+                                <p className="text-gray-400 text-center">{errors}</p>
                             }
-                            
+
                         </div>
                     )}
 
                     <form
-                    className=" relative bg-white w-[400px] h-[350px] shadow-md
+                        className=" relative bg-white w-[400px] h-[350px] shadow-md
                     rounded border-box pt-12 p-2 flex flex-col items-center"
-                    onSubmit={handleResetPasswordBtn}>
+                        onSubmit={handleResetPasswordBtn}>
                         <button
-                        className=" absolute left-2 top-2 bg-gray-300 hover:bg-gray-400 w-[40px] h-[40px] 
+                            className=" absolute left-2 top-2 bg-gray-300 hover:bg-gray-400 w-[40px] h-[40px] 
                         rounded-md border-box pl-2 cursor-pointer hover:shadow-lg transition ease-in-out duration-100"
-                        onClick={handleReturnResetForm}>
-                            <img 
-                            src={back} 
-                            alt="returnIcon"
-                            className="w-[20px]" />
+                            onClick={handleReturnResetForm}>
+                            <img
+                                src={back}
+                                alt="returnIcon"
+                                className="w-[20px]" />
                         </button>
 
                         <p className="text-2xl mb-5">Reset Password Form</p>
 
-                        <div 
+                        <div
                             className="enrollNumberContainer w-full h-[1px] flex justify-between
                             items-center border-box p-10">
-                                <label className="text-end w-[80px] border-box">EnrollNumber:</label>
-                                <input 
-                                type="text" 
+                            <label className="text-end w-[80px] border-box">EnrollNumber:</label>
+                            <input
+                                type="text"
                                 className="outline-none border-b-1 text-center"
-                                onChange={(e)=>setEnrollNumber(e.target.value)}
-                                required/>
+                                onChange={(e) => setEnrollNumber(e.target.value)}
+                                required />
                         </div>
 
-                        <div 
+                        <div
                             className="resetPasswordContainer w-full h-[1px] flex justify-between
                             items-center border-box p-10">
-                                <label className="text-end w-[80px] border-box">Password:</label>
-                                <input 
-                                type="password" 
+                            <label className="text-end w-[80px] border-box">Password:</label>
+                            <input
+                                type="password"
                                 className="outline-none border-b-1 text-center"
-                                onChange={(e)=>setNewPassword(e.target.value)}
-                                required/>
+                                onChange={(e) => setNewPassword(e.target.value)}
+                                required />
                         </div>
 
                         <div className="ResetBtnContainer w-full h-[1px] flex justify-end items-center border-box pt-13 pr-2">
-                            <button 
-                            type="submit" 
-                            className="bg-red-500 hover:bg-red-700 w-[150px] h-[40px] 
+                            <button
+                                type="submit"
+                                className="bg-red-500 hover:bg-red-700 w-[150px] h-[40px] 
                             text-white rounded-lg cursor-pointer transition ease-in-out duration-100">
                                 Reset
                             </button>
@@ -453,12 +453,12 @@ function Users (){
                 rounded bg-black/60 z-20">
                     {save && (
                         <div
-                        className="successMessageContainer absolute w-[225px] h-[225px] rounded-lg shadow-xl/20 bg-white flex 
+                            className="successMessageContainer absolute w-[225px] h-[225px] rounded-lg shadow-xl/20 bg-white flex 
                         flex-col gap-1 justify-center items-center pb-7 z-1 border-1 border-gray-300">
-                            <img 
-                            src={check} 
-                            alt="successIcon"
-                            className=" w-[80px] h-[80px] mb-5" />
+                            <img
+                                src={check}
+                                alt="successIcon"
+                                className=" w-[80px] h-[80px] mb-5" />
                             <p className="text-lg font-medium">SUCCESS</p>
                             <p className="text-gray-400">{success}</p>
                         </div>
@@ -466,81 +466,82 @@ function Users (){
 
                     {failed && (
                         <div
-                        className="successMessageContainer absolute w-[225px] h-[225px] rounded-lg shadow-xl/20 bg-white flex 
+                            className="successMessageContainer absolute w-[225px] h-[225px] rounded-lg shadow-xl/20 bg-white flex 
                         flex-col gap-1 justify-center items-center pb-7 z-1 border-1 border-gray-300">
-                            <img 
-                            src={cross} 
-                            alt="successMessage"
-                            className=" w-[80px] h-[80px] mb-5" />
+                            <img
+                                src={cross}
+                                alt="successMessage"
+                                className=" w-[80px] h-[80px] mb-5" />
                             <p className="text-lg font-medium">FAILED</p>
                             {errors &&
-                            <p className="text-gray-400">{errors}</p>
+                                <p className="text-gray-400">{errors}</p>
                             }
-                            
+
                         </div>
                     )}
 
-                    <form 
-                    className=" relative bg-white w-[400px] h-[450px] shadow-md
+                    <form
+                        className=" relative bg-white w-[400px] h-[450px] shadow-md
                     rounded border-box pt-12 p-2 flex flex-col items-center"
-                    onSubmit={handleAddUser}>
-                        <button 
-                        className=" absolute left-2 top-2 bg-gray-300 hover:bg-gray-400 w-[40px] h-[40px] 
+                        onSubmit={handleAddUser}>
+                        <button
+                            className=" absolute left-2 top-2 bg-gray-300 hover:bg-gray-400 w-[40px] h-[40px] 
                         rounded-md border-box pl-2 cursor-pointer hover:shadow-lg transition ease-in-out duration-100"
-                        onClick={handleReturnUserForm}>
-                            <img 
-                            src={back} 
-                            alt="return button"
-                            className="w-[20px]" />
+                            onClick={handleReturnUserForm}>
+                            <img
+                                src={back}
+                                alt="return button"
+                                className="w-[20px]" />
                         </button>
 
                         <p className="text-2xl mb-5">Add User Form</p>
 
-                        <div 
+                        <div
                             className="enrollNumberContainer w-full h-[1px] flex justify-between
                             items-center border-box p-10">
-                                <label className="text-end w-[80px] border-box">EnrollNumber:</label>
-                                <input 
-                                type="text" 
+                            <label className="text-end w-[80px] border-box">EnrollNumber:</label>
+                            <input
+                                type="text"
                                 className="outline-none border-b-1 text-center"
-                                onChange={(e)=>setEnrollNumber(e.target.value)}
-                                required/>
+                                onChange={(e) => setEnrollNumber(e.target.value)}
+                                required />
                         </div>
 
-                        <div 
+                        <div
                             className="passwordContainer w-full h-[1px] flex justify-between
                             items-center border-box p-10">
-                                <label className="text-end w-[80px] border-box">Password:</label>
-                                <input 
-                                type="password" 
+                            <label className="text-end w-[80px] border-box">Password:</label>
+                            <input
+                                type="password"
                                 className="w-[200px] h-[40px] border-1 cursor-pointer outline-none border-box p-2 rounded"
-                                onChange={(e)=>setPassword(e.target.value)}
-                                required/>
+                                onChange={(e) => setPassword(e.target.value)}
+                                required />
                         </div>
 
-                        <div 
+                        <div
                             className="departmentContainer w-full h-[1px] flex justify-between
                             items-center border-box p-10">
-                                <label className="text-end w-[80px] border-box">Department:</label>
-                                <select
+                            <label className="text-end w-[80px] border-box">Department:</label>
+                            <select
                                 className="w-[200px] h-[40px] border-1 cursor-pointer outline-none border-box p-2 
                                 rounded text-center"
                                 value={departmentId}
-                                onChange={(e)=>setDepartment(e.target.value)}>
-                                    <option value="" disabled>~Select department~</option>
+                                onChange={(e) => setDepartment(e.target.value)}>
 
-                                    {department.map((dep)=>(
-                                        <option key={dep.departmentId} value={dep.departmentId}>
-                                            {dep.departmentName}
-                                        </option>
-                                    ))}
-                                </select>
+                                <option value="" disabled>~Select department~</option>
+
+                                {department.map((dep) => (
+                                    <option key={dep.departmentId} value={dep.departmentId}>
+                                        {dep.departmentName}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
 
                         <div className="SaveBtnContainer w-full h-[1px] flex justify-end items-center border-box pt-13 pr-2">
-                            <button 
-                            type="submit" 
-                            className="bg-green-500 hover:bg-green-700 w-[150px] h-[40px] 
+                            <button
+                                type="submit"
+                                className="bg-green-500 hover:bg-green-700 w-[150px] h-[40px] 
                             text-white rounded-lg cursor-pointer transition ease-in-out duration-100">
                                 Add
                             </button>
@@ -554,83 +555,83 @@ function Users (){
                 rounded bg-black/60 z-20">
                     {save && (
                         <div
-                        className="successMessageContainer absolute w-[225px] h-[225px] rounded-lg shadow-xl/20 bg-white flex 
+                            className="successMessageContainer absolute w-[225px] h-[225px] rounded-lg shadow-xl/20 bg-white flex 
                         flex-col gap-1 justify-center items-center pb-7 z-1 border-1 border-gray-300">
-                            <img 
-                            src={check} 
-                            alt="successMessage"
-                            className=" w-[80px] h-[80px] mb-5" />
+                            <img
+                                src={check}
+                                alt="successMessage"
+                                className=" w-[80px] h-[80px] mb-5" />
                             <p className="text-lg font-medium">SUCCESS</p>
                             <p className="text-gray-400">User updated</p>
                         </div>
                     )}
 
-                    <form 
-                    className=" relative bg-white w-[400px] h-[450px] shadow-lg
+                    <form
+                        className=" relative bg-white w-[400px] h-[450px] shadow-lg
                     rounded border-box pt-12 p-2 flex flex-col items-center"
-                    onSubmit={handleSubmit}>
-                        <button 
-                        className=" absolute left-2 top-2 bg-gray-300 hover:bg-gray-400 w-[40px] h-[40px] 
+                        onSubmit={handleSubmit}>
+                        <button
+                            className=" absolute left-2 top-2 bg-gray-300 hover:bg-gray-400 w-[40px] h-[40px] 
                         rounded-md border-box pl-2 cursor-pointer hover:shadow-lg transition ease-in-out duration-100"
-                        onClick={handleReturnEdit}>
-                            <img 
-                            src={back} 
-                            alt="return button"
-                            className="w-[20px]" />
+                            onClick={handleReturnEdit}>
+                            <img
+                                src={back}
+                                alt="return button"
+                                className="w-[20px]" />
                         </button>
 
                         <p className="text-2xl mb-5">Edit User Form</p>
 
-                        <div 
+                        <div
                             className="enrollNumberContainer w-full h-[1px] flex justify-between
                             items-center border-box p-10">
-                                <label className="text-end w-[80px] border-box">EnrollNumber:</label>
-                                <input 
-                                type="text" 
+                            <label className="text-end w-[80px] border-box">EnrollNumber:</label>
+                            <input
+                                type="text"
                                 value={enrollNumber}
                                 readOnly
-                                className="outline-none border-b-1 text-center"/>
+                                className="outline-none border-b-1 text-center" />
                         </div>
 
-                        <div 
+                        <div
                             className="roleContainer w-full h-[1px] flex justify-between
                             items-center border-box p-10">
-                                <label className="text-end w-[80px] border-box">Role:</label>
-                                <select
+                            <label className="text-end w-[80px] border-box">Role:</label>
+                            <select
                                 value={roleId}
-                                onChange={(e)=>setRole(e.target.value)}
+                                onChange={(e) => setRole(e.target.value)}
                                 className="w-[200px] h-[40px] border-1 cursor-pointer outline-none border-box p-2 rounded">
-                                    {role.map((r)=>(
-                                        <option key={r.roleId} value={r.roleId}>
-                                            {r.roleName}
-                                        </option>
-                                    ))}
-                                </select>
+                                {role.map((r) => (
+                                    <option key={r.roleId} value={r.roleId}>
+                                        {r.roleName}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
 
-                        <div 
+                        <div
                             className="departmentContainer w-full h-[1px] flex justify-between
                             items-center border-box p-10">
-                                <label className="text-end w-[80px] border-box">Department:</label>
-                                <select
+                            <label className="text-end w-[80px] border-box">Department:</label>
+                            <select
                                 className="w-[200px] h-[40px] border-1 cursor-pointer outline-none border-box p-2 
                                 rounded"
                                 value={departmentId}
-                                onChange={(e)=>setDepartment(e.target.value)}>
-                                    {department.map((dep)=>(
-                                        <option key={dep.departmentId} value={dep.departmentId}>
-                                            {dep.departmentName}
-                                        </option>
-                                    ))}
-                                </select>
+                                onChange={(e) => setDepartment(e.target.value)}>
+                                {department.map((dep) => (
+                                    <option key={dep.departmentId} value={dep.departmentId}>
+                                        {dep.departmentName}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
 
                         <div className="SaveBtnContainer w-full h-[1px] flex justify-end items-center border-box pt-13 pr-2">
-                            <button 
-                            type="submit" 
-                            className="bg-green-500 hover:bg-green-700 w-[150px] h-[40px] 
+                            <button
+                                type="submit"
+                                className="bg-green-500 hover:bg-green-700 w-[150px] h-[40px] 
                             text-white rounded-lg cursor-pointer transition ease-in-out duration-100"
-                            disabled = {loading}>
+                                disabled={loading}>
                                 Save
                             </button>
                         </div>

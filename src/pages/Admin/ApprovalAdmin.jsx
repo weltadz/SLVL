@@ -53,6 +53,7 @@ function ApprovalAdmin (){
                             <th className="w-[200px]">End Date</th>
                             <th className="w-[200px]">Reason</th>
                             <th className="w-[200px]">Document Type</th>
+                            <th className="w-[200px]">Total Days</th>
                             <th className="rounded-tr w-[200px]">Action</th>
                         </tr>
                     </thead>
@@ -60,7 +61,7 @@ function ApprovalAdmin (){
                         {approvalRequest.length == 0 ? (
                             <tr className=" text-[15px] text-gray-500 h-[2rem] md:h-[3rem] md:text-[20px] 
                                 text-center">
-                                <td colSpan={6}>No Request</td>
+                                <td colSpan={7}>No Request</td>
                             </tr>
                         ) : (
                             approvalRequest.map((item,index)=>(
@@ -73,6 +74,7 @@ function ApprovalAdmin (){
                                     <td>{item.endDate}</td>
                                     <td>{item.reason}</td>
                                     <td>{item.documentTypeId == 1 ? "Sick Leave" : "Vacation Leave"}</td>
+                                    <td>{item.totalDays}</td>
                                     <td className="w-[190px]">
                                         <button 
                                         className="bg-green-500 hover:bg-green-700 text-white h-[30px] w-[75px] 

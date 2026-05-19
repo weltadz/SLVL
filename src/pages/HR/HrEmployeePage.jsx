@@ -118,13 +118,14 @@ function Employees (){
                                     <th className="w-[200px]">Reason</th>
                                     <th className="w-[200px]">Document Type</th>
                                     <th className="w-[200px]">Status</th>
+                                    <th className="w-[200px]">Total Days</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {records.length == 0 ? (
                                     <tr className=" text-[15px] text-gray-500 h-[2rem] md:h-[3rem] md:text-[20px] 
                                     text-center">
-                                        <td colSpan={5}>No record found</td>
+                                        <td colSpan={6}>No record found</td>
                                     </tr>
                                 ) : (
                                     records.map((rec, index)=>(
@@ -141,6 +142,7 @@ function Employees (){
                                                 :rec.statusId == 2? "Approved"
                                                 : "Completed"}
                                             </td>
+                                            <td>{rec.totalDays}</td>
                                         </tr>
                                     ))
                                 )}

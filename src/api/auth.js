@@ -1,5 +1,5 @@
 const fetchLogin = async (enrollNumber, password) =>{
-    const response = await fetch('https://localhost:7080/api/Login',{
+    const response = await fetch('http://10.198.10.7:500/api/Login',{
         method: 'POST',
         headers: {'Content-Type' : 'application/json'},
         body: JSON.stringify({enrollNumber, password})

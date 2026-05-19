@@ -6,7 +6,7 @@ const refreshAccessToken = async () =>{
         return null;
     }
 
-    const response = await fetch('https://localhost:7080/api/RefreshToken',{
+    const response = await fetch('http://10.198.10.7:500/api/RefreshToken',{
         method:'POST',
         headers:{'Content-Type' : 'application/json'},
         body: JSON.stringify({refreshToken})
