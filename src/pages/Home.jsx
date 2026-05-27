@@ -142,10 +142,10 @@ function Home(){
                         <tr className="text-[10px] uppercase bg-blue-500 text-white h-[2rem] md:h-[3rem] md:text-sm">
                             <th className="rounded-tl w-[200px]">Start Date</th>
                             <th className="w-[200px]">End Date</th>
+                            <th className="w-[200px]">Total Days</th>
                             <th className="w-[200px]">Reason</th>
                             <th className="w-[200px]">Document Type</th>
-                            <th className="w-[200px]">Status</th>
-                            <th className="rounded-tr w-[200px]">TotalDays</th>
+                            <th className="rounded-tr w-[200px]">Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -162,6 +162,7 @@ function Home(){
                                 border-b-1 border-gray-300">
                                     <td>{item.startDate}</td>
                                     <td>{item.endDate}</td>
+                                    <td>{item.totalDays}</td>
                                     <td>{item.reason}</td>
                                     <td>{item.documentTypeId == 1? "Sick Leave" : "Vacation Leave"}</td>
                                     <td>
@@ -169,7 +170,6 @@ function Home(){
                                         :item.statusId == 2? "Approved"
                                         : "Completed"}
                                     </td>
-                                    <td>{item.totalDays}</td>
                                 </tr>
                             ))
                         )}

@@ -115,10 +115,10 @@ function Employees (){
                                 <tr className="text-[10px] uppercase bg-blue-500 text-white h-[2rem] md:h-[3rem] md:text-sm">
                                     <th className="w-[200px]">Start Date</th>
                                     <th className="w-[200px]">End Date</th>
+                                    <th className="w-[200px]">Total Days</th>
                                     <th className="w-[200px]">Reason</th>
                                     <th className="w-[200px]">Document Type</th>
                                     <th className="w-[200px]">Status</th>
-                                    <th className="w-[200px]">Total Days</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -135,6 +135,7 @@ function Employees (){
                                         border-b-1 border-gray-300">
                                             <td>{rec.startDate}</td>
                                             <td>{rec.endDate}</td>
+                                            <td>{rec.totalDays}</td>
                                             <td>{rec.reason}</td>
                                             <td>{rec.documentTypeId == 1 ? "Sick Leave" : "Vacation Leave"}</td>
                                             <td>
@@ -142,7 +143,6 @@ function Employees (){
                                                 :rec.statusId == 2? "Approved"
                                                 : "Completed"}
                                             </td>
-                                            <td>{rec.totalDays}</td>
                                         </tr>
                                     ))
                                 )}
